@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Angular Website</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="app.component.css"> <!-- You can create a separate CSS file for your custom styles -->
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/logo.png" alt="Logo" width="200">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    
+    <div class="page-wrapper">
+      <div class="ml-auto d-flex align-items-center">
+          <app-search></app-search>
+        </div>
+        
+        <aside class="menu-sidebar d-none d-lg-block">
+          <app-product-category-menu></app-product-category-menu>
+         <app-cart-status></app-cart-status>
+        </aside>
+         
+      <div class="page-wrapper-placeholder">
+        
+      </div>
+    </div>
+    
+    <!-- <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Product Categories
+          </a>
+          <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            <a class="dropdown-item" href="#">Sandwiches</a>
+            <a class="dropdown-item" href="#">Drinks</a>
+            <a class="dropdown-item" href="#">Chips & Snacks</a>
+            <a class="dropdown-item" href="#">Groceries</a>
+            <a class="dropdown-item" href="#">Hygiene</a>
+          </div>
+        </li>
+      </ul>
+    </div> -->
+    <!-- <div class="ml-auto d-flex align-items-center">
+      <app-search></app-search>
+      <app-cart-status></app-cart-status>
+    </div> -->
+    <!-- <div class="page-wrapper">
+      <div class="ml-auto d-flex align-items-center">
+        <app-search></app-search>
+        <app-cart-status></app-cart-status>
+      </div>
+    </div> -->
+  </div>
+</nav>
+
+<!-- MAIN CONTENT-->
+<div class="container mt-5">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="text-center mt-5 py-3">
+  <ul class="list-inline">
+    <li class="list-inline-item"><a href="#">About Us</a></li>
+    <li class="list-inline-item"><a href="#">Contact Us</a></li>
+    <li class="list-inline-item"><a href="#">Help</a></li>
+  </ul>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
