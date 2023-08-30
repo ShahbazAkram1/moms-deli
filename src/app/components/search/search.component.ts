@@ -13,6 +13,13 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
+  // search for product case insensitive
+  // doSearch(value: string) {
+  //   const caseInsensitiveValue = new RegExp(value, 'i');
+  //   console.log(`value=${caseInsensitiveValue}`);
+  //   this.router.navigateByUrl(`/search/${caseInsensitiveValue}`);
+  // }
+  
   doSearch(value: string) {
     console.log(`value=${value}`);
     this.router.navigateByUrl(`/search/${value}`);

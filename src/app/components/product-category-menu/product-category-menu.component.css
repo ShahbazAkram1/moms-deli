@@ -1,14 +1,16 @@
 .jumbotron-custom {
     background-color: #f8f9fa;
     padding: 2rem 0;
-    margin-bottom: 0; /* If you want to remove the default bottom margin */
+    margin-bottom: 0px auto; /* If you want to remove the default bottom margin */
    /*  border-radius: 0; If you want to remove the default border radius */
-    /* Add any other custom styling you want */
+   display: flex; /* Use Flexbox for vertical centering */
+   justify-content: center; /* Horizontally center the content */
+   align-items: center; /* Vertically center the content */
     height: 50px;
   }
 
 .product-categories {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
   
   .product-categories h1 {
@@ -20,7 +22,7 @@
     display: flex;
     justify-content: center;
     /* flex-wrap: wrap; */
-    gap: 10px;
+    gap: 5px;
   }
   
   .category-link {
@@ -42,15 +44,9 @@
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.2s;
+    text-align: center;
   }
   
   .category-link:hover {
     background-color: #0056b3;
-  }
-  
-  .jumbotron-custom {
-    display: flex; /* Use Flexbox for vertical centering */
-    justify-content: center; /* Horizontally center the content */
-    align-items: center; /* Vertically center the content */
-    /* Add any other custom styling you want */
   }

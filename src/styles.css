@@ -119,13 +119,21 @@ a,a:hover{
     padding-top:116px;
     min-height:100vh
 }
-
 aside.menu-sidebar.d-none.d-lg-block.clr{
     background:0 0;
     z-index:99999999;
     height:75px;
-    box-shadow:-2px 0 4px #0000003b
-} */ 
+    box-shadow:-2px 0 4px #0000003b;
+} 
+*/ 
+aside.menu-sidebar.d-none.d-lg-block{
+    background:0 0;
+    z-index:99999999;
+    height:75px;
+    box-shadow:-2px 0 4px #0000003b;
+    vertical-align: middle;
+    margin-top:10px;
+} 
 
 /* 
  * ----------------------------
@@ -249,7 +257,7 @@ input.au-input.au-input-xl{
     -moz-transition:all .5s ease;
     transition:all .5s ease
 }
-
+*/
 .cart-area.d-n{
     display:block
 }
@@ -262,14 +270,15 @@ input.au-input.au-input-xl{
     margin-left:15px
 }
 
+
 .total{
-    background:#205b8d;
-    line-height:43px;
+    background:#8d2020;
+    line-height:33px;
     color:#fff;
-    border-radius:30px;
-    border:1px solid #0da8e4;
+    border-radius:20px;
+    border:1px solid #e40d0d;
     float:left;
-    margin-top:7px;
+    margin-top:-5px;
     padding-left:17px
 }
 
@@ -282,7 +291,7 @@ input.au-input.au-input-xl{
     border-bottom-right-radius:20px;
     margin-left:11px
 }
-
+/*
 .form-header{
     display:-webkit-box;
     display:-webkit-flex;
@@ -291,6 +300,13 @@ input.au-input.au-input-xl{
     display:flex
 }
 */
+.input-group mr-3{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+}
 .au-btn-submit{
     position:relative;
     right:0;
@@ -1000,7 +1016,7 @@ footer ul li{
         top:66px;
         padding-left:0
     }
-    .au-btn-submit{
+    /* .au-btn-submit{
         position:relative;
         right:10px;
         min-width:85px;
@@ -1010,7 +1026,7 @@ footer ul li{
         -moz-border-radius:3px;
         border-radius:0;
         background:#205b8d
-    }
+    } */
     input.au-input.au-input-xl{
         border-radius:0!important;
         margin-right:0
@@ -1028,7 +1044,7 @@ footer ul li{
         color:#03a9f4;
         margin-left:15px
     }
-    .total span{
+    /* .total span{
         display:inline-block;
         background:#fff;
         padding:0 10px;
@@ -1046,7 +1062,7 @@ footer ul li{
         float:left;
         margin-top:9px;
         padding-left:12px
-    }
+    } */
     .header-mobile .header-mobile-bar{
         padding:6px 0;
         background:#fff;
