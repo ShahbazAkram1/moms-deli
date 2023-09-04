@@ -18,59 +18,49 @@
     <a class="navbar-brand" routerLink="/cart-details">
       <app-cart-status></app-cart-status>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="toggleNavbar()"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
-    
-    
+
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': isNavbarOpen }" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <app-product-category-menu></app-product-category-menu>
+        </li>
+        <li class="nav-item">
+          <app-search></app-search>
+        </li>
+      </ul>
+    </div>
+
     <div class="page-wrapper">
       <div class="ml-auto d-flex align-items-center">
           
         </div>
         
-        <aside class="menu-sidebar d-none d-lg-block">
+        <!-- <aside class="menu-sidebar d-none d-lg-block">
           <app-product-category-menu></app-product-category-menu>
-          
-        </aside>
-         <!-- <app-search></app-search> -->
+        </aside> -->
          
       <div class="page-wrapper-placeholder">
-        <!-- <app-cart-status></app-cart-status> -->
       </div>
     </div>
     
     <div class="page-wrapper2">
-      <!-- <aside class="menu-sidebar d-none d-lg-block">
-        <app-cart-status></app-cart-status>
-      </aside> -->
     </div>
-
-    <!-- <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Product Categories
-          </a>
-          <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
-            <a class="dropdown-item" href="#">Sandwiches</a>
-            <a class="dropdown-item" href="#">Drinks</a>
-            <a class="dropdown-item" href="#">Chips & Snacks</a>
-            <a class="dropdown-item" href="#">Groceries</a>
-            <a class="dropdown-item" href="#">Hygiene</a>
-          </div>
-        </li>
-      </ul>
-    </div> -->
-    <!-- <div class="ml-auto d-flex align-items-center">
-      <app-search></app-search>
-      <app-cart-status></app-cart-status>
-    </div> -->
-    <!-- <div class="page-wrapper">
-      <div class="ml-auto d-flex align-items-center">
-        <app-search></app-search>
-        <app-cart-status></app-cart-status>
-      </div>
-    </div> -->
   </div>
 </nav>
 

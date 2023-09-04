@@ -13,11 +13,13 @@
 
                     <tr *ngFor="let tempCartItem of cartItems">
                         <td>
-                            <img src="{{ tempCartItem.imageUrl }}" class="img-responsive" width="150px" />
+                            <img src="{{ tempCartItem.imageUrl }}" class="img-responsive" width="100%" />
                         </td>
                         <td>
                             <p>{{ tempCartItem.name }}</p>
                             <p>{{ tempCartItem.price | currency: 'USD' }}</p>
+                            <!-- <p>Do you want to add any sides/toppings with this?</p>
+                            <p></p> -->
                         </td>
                         <td>
                             <div class="items">
