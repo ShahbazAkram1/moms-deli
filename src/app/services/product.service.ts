@@ -10,9 +10,9 @@ import { ProductCategory } from '../common/product-category';
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8080/api/products';
+  private baseUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/products';
 
-  private categoryUrl = 'http://localhost:8080/api/product-category';
+  private categoryUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/product-category';
 
   constructor(private httpClient: HttpClient) { }
 

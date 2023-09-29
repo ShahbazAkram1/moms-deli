@@ -9,9 +9,9 @@ import { PaymentInfo } from '../common/payment-info';
 })
 export class CheckoutService {
 
-  private purchaseUrl = 'http://localhost:8080/api/checkout/purchase';
+  private purchaseUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/checkout/purchase';
 
-  private paymentIntentUrl = 'http://localhost:8080/api/checkout/payment-intent';
+  private paymentIntentUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/checkout/payment-intent';
 
   constructor(private httpClient: HttpClient) { }
 
