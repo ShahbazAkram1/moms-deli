@@ -10,8 +10,10 @@ import { State } from '../common/state';
 })
 export class MomsDeliFormService {
 
-  private countriesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/countries';
-  private statesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/states';
+  // private countriesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/countries';
+  // private statesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/states';
+  private countriesUrl = 'http://localhost:8081/api/countries';
+  private statesUrl = 'http://localhost:8081/api/states';
 
   constructor(private httpClient: HttpClient) { }
 
