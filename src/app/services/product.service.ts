@@ -10,15 +10,15 @@ import { ProductCategory } from '../common/product-category';
 })
 export class ProductService {
 
-  // private baseUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/products';
+  private baseUrl = 'http://3.83.92.87:8080/api/products';
 
-  // private categoryUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/product-category';
+  private categoryUrl = 'http://3.83.92.87:8080/api/product-category';
 
   // localhost for Spring Boot
 
-  private baseUrl = 'http://localhost:8081/api/products';
+  // private baseUrl = 'http://localhost:8081/api/products';
 
-  private categoryUrl = 'http://localhost:8081/api/product-category';
+  // private categoryUrl = 'http://localhost:8081/api/product-category';
 
   constructor(private httpClient: HttpClient) { }
 

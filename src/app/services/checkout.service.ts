@@ -9,13 +9,20 @@ import { PaymentInfo } from '../common/payment-info';
 })
 export class CheckoutService {
 
+  // AWS EC2 URLs
+  private purchaseUrl = 'http://3.83.92.87:8080/api/checkout/purchase';
+
+  private paymentIntentUrl = 'http://3.83.92.87:8080/api/checkout/payment-intent';
+
+  // private purchaseUrl = 'http://localhost:8081/api/checkout/purchase';
+
+  // private paymentIntentUrl = 'http://localhost:8081/api/checkout/payment-intent';
+
+// private purchaseUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/checkout/purchase';
+
   // private purchaseUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/checkout/purchase';
 
   // private paymentIntentUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/checkout/payment-intent';
-
-  private purchaseUrl = 'http://localhost:8081/api/checkout/purchase';
-
-  private paymentIntentUrl = 'http://localhost:8081/api/checkout/payment-intent';
 
   constructor(private httpClient: HttpClient) { }
 
