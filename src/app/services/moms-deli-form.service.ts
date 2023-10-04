@@ -10,12 +10,14 @@ import { State } from '../common/state';
 })
 export class MomsDeliFormService {
 
+  private countriesUrl = 'http://momsdelionline.com/api/countries';
+  private statesUrl = 'http://momsdelionline.com/api/states';
   // private countriesUrl = 'http://3.83.92.87:8080/api/countries';
   // private statesUrl = 'http://3.83.92.87:8080/api/states';
   // private countriesUrl = 'http://localhost:8081/api/countries';
   // private statesUrl = 'http://localhost:8081/api/states';
-  private countriesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/countries';
-  private statesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/states';
+  // private countriesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/countries';
+  // private statesUrl = 'http://momsdeli.us-east-1.elasticbeanstalk.com/api/states';
 
   constructor(private httpClient: HttpClient) { }
 

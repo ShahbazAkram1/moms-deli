@@ -10,9 +10,13 @@ import { ProductCategory } from '../common/product-category';
 })
 export class ProductService {
 
-  private baseUrl = 'http://3.83.92.87:8080/api/products';
+  private baseUrl = 'http://momsdelionline.com/api/products';
 
-  private categoryUrl = 'http://3.83.92.87:8080/api/product-category';
+  private categoryUrl = 'http://momsdelionline.com/api/product-category';
+
+  // private baseUrl = 'http://3.83.92.87:8080/api/products';
+
+  // private categoryUrl = 'http://3.83.92.87:8080/api/product-category';
 
   // localhost for Spring Boot
 
