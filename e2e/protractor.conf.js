@@ -16,7 +16,7 @@ exports.config = {
     browserName: 'chrome'
   },
   directConnect: true,
-  baseUrl: 'http://momsdelionline.com:8080/',
+  baseUrl: '/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
