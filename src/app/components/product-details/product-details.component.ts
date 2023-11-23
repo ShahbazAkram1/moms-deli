@@ -26,6 +26,7 @@ export class ProductDetailsComponent implements OnInit {
   additionalItemsId!: number;
   additionalItemsName!: string;
   additionalItemsPrice!: number;
+  additionImageURL!:string;
   additionalItem!: AdditionalItem;
   // selectedAdditionalItems: AdditionalItem[] | undefined;
 
@@ -35,7 +36,7 @@ export class ProductDetailsComponent implements OnInit {
               private additionalItemsService: AdditionalItemsService,
               // public dialogRef: MatDialogRef<AdditionalItemsModalComponent>,
               private dialog: MatDialog) { 
-                this.additionalItem = new AdditionalItem(this.additionalItemsId, this.additionalItemsName, this.additionalItemsPrice); 
+                this.additionalItem = new AdditionalItem(this.additionalItemsId, this.additionalItemsName, this.additionalItemsPrice,this.additionImageURL); 
               }
 
   ngOnInit(): void {

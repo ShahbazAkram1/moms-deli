@@ -30,6 +30,7 @@ export class ProductListComponent implements OnInit {
   additionalItemsId!: number;
   additionalItemsName!: string;
   additionalItemsPrice!: number;
+  additionImageURL!:string;
   additionalItem!: AdditionalItem;
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
@@ -177,7 +178,7 @@ export class ProductListComponent implements OnInit {
     console.log("category Id = " + this.currentCategoryId)
     if (this.currentCategoryId === 1) {
       const additionalItems = [
-        new AdditionalItem(this.additionalItemsId, this.additionalItemsName, this.additionalItemsPrice)
+        new AdditionalItem(this.additionalItemsId, this.additionalItemsName, this.additionalItemsPrice,this.additionImageURL)
       ];
   
       const dialogRef = this.dialog.open(AdditionalItemsModalComponent, {
