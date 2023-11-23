@@ -1,0 +1,26 @@
+/* search bar will be width 200px */
+
+/* .input-group{
+
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    /* max-width: 200px; 
+} */
+
+.input-group {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 300px;
+    margin: left; /* Center the search bar horizontally */
+}
+
+/* Add this to your component's CSS file */
+.search-icon {
+    cursor: pointer;
+  }

@@ -1,0 +1,28 @@
+<!-- navbar.component.html -->
+
+<mat-toolbar style="background-color: black; color: white;">
+  <p>&nbsp;</p><mat-toolbar-row>
+
+    <!-- Logo -->
+    <div fxHide.lt-sm="true" fxShow.gt-md="true">
+      <a href="#">
+        <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150">
+      </a>
+      <p>&nbsp;</p>
+    </div>
+
+
+    <div fxHide.lt-md="true">
+      <app-product-category-menu></app-product-category-menu>
+      <!-- <p>&nbsp;</p> -->
+    </div>
+
+    <!-- Cart -->
+    <div class="cart-area" fxShow="true" fxHide.lt-md="true">
+      <a class="nav-link" routerLink="/cart-details">
+        <app-cart-status></app-cart-status>
+        <p>&nbsp;</p>
+      </a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,20 @@
+<!-- Import the search icon font in your styles or index.html file -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- ... -->
+<p>&nbsp;</p>
+<mat-toolbar style="background-color: white; color: white;">
+  <mat-toolbar-row>
+    <!-- ... -->
+
+    <!-- Search Bar with Material UI Components -->
+    <div class="input-group mr-3">
+      <mat-form-field class="form-control">
+        <input matInput #myInput placeholder="Search for products" (keyup.enter)="doSearch(myInput.value)">
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <!-- ... -->
+  </mat-toolbar-row>
+</mat-toolbar>

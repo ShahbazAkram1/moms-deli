@@ -1,0 +1,34 @@
+<!-- Updated table using Angular Material -->
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="products" class="mat-elevation-z8">
+  
+      <!-- Image Column -->
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let element"> <img [src]="element.imageUrl" height="50" /> </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+      </ng-container>
+  
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let element"> {{ element.price | currency:'USD' }} </td>
+      </ng-container>
+  
+      <!-- Units in Stock Column -->
+      <ng-container matColumnDef="unitsInStock">
+        <th mat-header-cell *matHeaderCellDef> Units in Stock </th>
+        <td mat-cell *matCellDef="let element"> {{ element.unitsInStock }} </td>
+      </ng-container>
+  
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="['image', 'name', 'price', 'unitsInStock']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['image', 'name', 'price', 'unitsInStock'];"></tr>
+    </table>
+  </div>
+  
