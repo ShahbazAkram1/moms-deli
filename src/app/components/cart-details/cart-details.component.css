@@ -1,48 +1,28 @@
-/* Additional styling for a more compact look */
+
 .cart-container {
-  background-color: #fff;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.product-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.items label {
+    font-weight: bold;
 }
 
-.product-card img {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+.items button {
+    margin-right: 5px;
+}
+
+.addons-container {
+    margin-top: 20px;
 }
 
 .addon-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.addon-card img {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-.card-body {
-  font-size: 14px; /* Adjust the font size as needed */
-}
-
-.items {
-  font-size: 12px; /* Adjust the font size as needed */
-}
-
-.btn {
-  font-size: 12px; /* Adjust the font size as needed */
+    margin: 0 5px 10px 5px;
+    border: 1px solid #ddd;
 }
 
 .summary-container {
-  font-size: 14px; /* Adjust the font size as needed */
-}
-
-.alert {
-  font-size: 14px; /* Adjust the font size as needed */
+    background-color: #f8f9fa;
+    padding: 15px;
 }
