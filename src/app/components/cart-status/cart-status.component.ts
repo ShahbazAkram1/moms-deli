@@ -13,6 +13,7 @@ export class CartStatusComponent implements OnInit {
   totalQuantity: number = 0;
 
   constructor(private cartService: CartService) { }
+  storage: Storage = sessionStorage;
 
   ngOnInit(): void {
     this.updateCartStatus();
@@ -21,9 +22,8 @@ export class CartStatusComponent implements OnInit {
   updateCartStatus() {
 
     // subscribe to the cart totalPrice
-    this.cartService.totalPrice.subscribe(
-      data => this.totalPrice = data
-    );
+    let price = this.storage.getItem("totalPrice");
+     this.totalPrice  = parseFloat(price || "0");
 
     // subscribe to the cart totalQuantity
     this.cartService.totalQuantity.subscribe(

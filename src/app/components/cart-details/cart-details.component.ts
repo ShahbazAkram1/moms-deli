@@ -22,6 +22,10 @@ export class CartDetailsComponent implements OnInit {
   totalAdditionalPrice = 0;
   listOfAdditionItems: AdditionalItem[] = []; 
 
+  cartItem!:CartItem;
+
+  storage: Storage = sessionStorage;
+
   constructor(private cartService: CartService, private additionItemService:AdditionalItemsService) { }
 
   ngOnInit(): void {
@@ -62,14 +66,18 @@ export class CartDetailsComponent implements OnInit {
 
   addAdditoinItem(item: any) {
     // Add item to the selection
+    this.increaseTotalPrice(item.price);
     this.selectedAdditionalItems.push(item);
+     this.getTotalAdditionalPrice();
   }
 
   // 
   public getAllAdtionItemService(){
     this.additionItemService.getAllAdditionalItem().subscribe
     (data=>{
-        this.listOfAdditionItems = data;
+      console.log(data)
+      this.listOfAdditionItems = data;
+      
     },
     
     (error:any)=>{
@@ -80,8 +88,12 @@ export class CartDetailsComponent implements OnInit {
   removeFromAdditionItemSelected(item: any) {
     const index = this.selectedAdditionalItems.indexOf(item);
     if (index !== -1) {
+      this.decreacePriceWhenAdditionItemRemove(item.price);
       this.selectedAdditionalItems.splice(index, 1);
+      this.getTotalAdditionalPrice();
+      
     }
+    this.getTotalAdditionalPrice();
   }
 
   checkInSelection(item: any): boolean {
@@ -89,10 +101,33 @@ export class CartDetailsComponent implements OnInit {
   }
 
   public getTotalAdditionalPrice(){
+    this.totalAdditionalPrice = 0;
     for(let item of this.selectedAdditionalItems){
-      this.totalAdditionalPrice+=item.price;
+      if(this.checkInSelection(item)){
+         this.totalAdditionalPrice+=item.price;
+      }
     }
     return this.totalAdditionalPrice;
   }
 
-}
+  public increaseTotalPrice(price:number){
+    let oldPriceString = this.storage.getItem("totalPrice");
+    let oldPrice = parseFloat(oldPriceString || "0"); // Use a default value if the string is null or undefined
+    oldPrice = oldPrice + price; // or oldPrice += price;
+    let newPriceAsString = oldPrice.toString();
+    this.storage.setItem("totalPrice", newPriceAsString);
+
+} 
+
+public decreacePriceWhenAdditionItemRemove(price:number){
+      let oldPriceString = this.storage.getItem("totalPrice");
+      let oldPrice = parseFloat(oldPriceString || "0"); // Use a default value if the string is null or undefined
+      oldPrice = oldPrice - price; // or oldPrice += price;
+      let newPriceAsString = oldPrice.toString();
+      this.storage.setItem("totalPrice", newPriceAsString);
+
+  }
+  
+
+
+} 

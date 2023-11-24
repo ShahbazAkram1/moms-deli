@@ -54,6 +54,8 @@ export class CartService {
       totalQuantityValue += currentCartItem.quantity;
     }
 
+
+    this.storage.setItem("totalPrice",totalPriceValue.toString());
     // publish the new values ... all subscribers will receive the new data
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
@@ -67,6 +69,7 @@ export class CartService {
   
   persistCartItems() {
     this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
+    console.log(this.storage.setItem('cartItems', JSON.stringify(this.cartItems)))
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
@@ -104,6 +107,12 @@ export class CartService {
 
       this.computeCartTotals();
     }
+  }
+
+  public increaseTotalPriceCart(theCartItem: CartItem){
+    console.log(theCartItem+"");
+    this.cartItems.push(theCartItem);
+    this.computeCartTotals();
   }
 
 }

@@ -425,4 +425,14 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
+
+  // totalPrice=0;
+  // updateCartStatus() {
+
+  //   // subscribe to the cart totalPrice
+  //   this.cartService.totalPrice.subscribe(
+  //     data => this.totalPrice = data
+  //   );
+
+
 }
