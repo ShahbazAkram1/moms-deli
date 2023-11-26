@@ -101,10 +101,10 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart() {
     console.log(`Adding to cart: ${this.product.name}, ${this.product.price}`);
-   
+   console.log(this.product._links);
     // Use the nullish coalescing operator to handle possible undefined
     //const selectedToppings = this.product.selectedToppings ?? [];
-    const theCartItem = new CartItem(this.product, [], this.selectedAdditionalItems);
+    const theCartItem = new CartItem(this.product, [], this.selectedAdditionalItems,this.product._links.category);
     // Include additional items in the cart item
     //const theCartItem = new CartItem(this.product, selectedToppings, this.selectedAdditionalItems);
     

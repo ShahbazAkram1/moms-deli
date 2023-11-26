@@ -40,6 +40,7 @@ export class CheckoutComponent implements OnInit {
   cardElement: any;
   displayError: any = "";
 
+  storage: Storage = sessionStorage;
   constructor(private formBuilder: FormBuilder,
               private MomsDeliFormService: MomsDeliFormService,
               private cartService: CartService,
@@ -175,9 +176,10 @@ export class CheckoutComponent implements OnInit {
     );
 
     // subscribe to cartService.totalPrice
-    this.cartService.totalPrice.subscribe(
-      totalPrice => this.totalPrice = totalPrice
-    );
+    // this.cartService.totalPrice.subscribe(
+    //   totalPrice => this.totalPrice = totalPrice
+    // );
+    
 
   }
   async handleFormSubmission() {

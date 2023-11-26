@@ -1,63 +1,98 @@
+
+<style>
+/* Add this CSS to your styles file or in your global styles file */
+
+.product-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.product-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-box img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product_name {
+  text-decoration: none;
+  color: #333;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.additional-items {
+  margin-top: 10px;
+}
+
+.additional-items label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.alert-warning {
+  margin-top: 20px;
+}
+
+</style>
 <div class="main-content">
     <div class="section-content section-content-p30">
-        <div class="container-fluid">
-
-
-            <div class="row">
-                <div *ngFor="let tempProduct of products" class="col-md-3">
-                    <div class="product-box">
-                        <a routerLink="/products/{{ tempProduct.id }}">
-                            <img [src]="tempProduct.imageUrl" class="img-responsive">
-                        </a>
-                        <a class="product_name" routerLink="/products/{{ tempProduct.id }}">
-                            <h1>{{ tempProduct.name }}</h1>
-                        </a>
-                        <div class="price">{{ tempProduct.price | currency:'USD' }}</div>
-                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
-
-                        <!-- <div class="price">{{ tempProduct.price | currency:'USD' }}</div> -->
-                        <!-- <button (click)="openAdditionalItemsModal()">Toppings / Additional Items</button> -->
-
-                        <div *ngIf="tempProduct.showAdditionalItems">
-                            <h4>Additional Items</h4>
-                            <div *ngFor="let additionalItem of selectedAdditionalItems">
-                              <label>
-                                <input type="checkbox" [(ngModel)]="additionalItem.selected" [value]="additionalItem">
-                                {{ additionalItem.name }} - {{ additionalItem.price | currency:'USD' }}
-                              </label>
-                            </div>
-                        </div>
-                          
-                    </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div *ngFor="let tempProduct of products" class="col-md-3">
+            <div class="product-box">
+              <a routerLink="/products/{{ tempProduct.id }}">
+                <img [src]="tempProduct.imageUrl" class="img-responsive" style="width:100vh">
+              </a>
+              <a class="product_name" routerLink="/products/{{ tempProduct.id }}">
+                <h1>{{ tempProduct.name }}</h1>
+              </a>
+              <div class="price">{{ tempProduct.price | currency:'USD' }}</div>
+              <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
+  
+              <div *ngIf="tempProduct.showAdditionalItems" class="additional-items">
+                <h4>Additional Items</h4>
+                <div *ngFor="let additionalItem of selectedAdditionalItems">
+                  <label>
+                    <input type="checkbox" [(ngModel)]="additionalItem.selected" [value]="additionalItem">
+                    {{ additionalItem.name }} - {{ additionalItem.price | currency:'USD' }}
+                  </label>
                 </div>
-                <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
-                    No products found.
-                </div>
+              </div>
             </div>
-
-            <!-- begin footer -->
-            <div class="footer-pagination">
-                <div class="row">
-                    <div class="col-md-6"></div>
-
-                    <div class="col-md-6">
-                        <div class="row">
-                            <!-- Paginator for the products -->
-                            <div class="col-md-12" style="text-align: center;">
-                                <mat-paginator [length]="theTotalElements"
-                                            [pageSize]="thePageSize"
-                                            [pageIndex]="thePageNumber - 1"
-                                            [pageSizeOptions]="[2, 5, 10, 20, 50]"
-                                            (page)="handlePageChange($event)">
-                                </mat-paginator>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!-- end footer -->
-
+          </div>
+          <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
+            No products found.
+          </div>
         </div>
+  
+        <!-- begin footer -->
+        <div class="footer-pagination">
+          <div class="row">
+            <div class="col-md-6"></div>
+  
+            <div class="col-md-6">
+              <div class="row">
+                <!-- Paginator for the products -->
+                <div class="col-md-12" style="text-align: center;">
+                  <mat-paginator [length]="theTotalElements" [pageSize]="thePageSize" [pageIndex]="thePageNumber - 1"
+                    [pageSizeOptions]="[2, 5, 10, 20, 50]" (page)="handlePageChange($event)">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end footer -->
+      </div>
     </div>
-</div>
+  </div>
+  

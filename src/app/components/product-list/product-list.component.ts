@@ -151,14 +151,14 @@ export class ProductListComponent implements OnInit {
   
   
   addToCart(theProduct: Product) {
-    
+    console.log(theProduct._links);
     console.log(`Adding to cart: ${theProduct.name}, ${theProduct.price}`);
 
     // // TODO ... do the real work
     // const theCartItem = new CartItem(theProduct);
 
       // Create a new CartItem with an empty array for selectedToppings
-    const theCartItem = new CartItem(theProduct, [], this.selectedAdditionalItems);
+    const theCartItem = new CartItem(theProduct, [], this.selectedAdditionalItems,theProduct._links.category);
     this.cartService.addToCart(theCartItem);
   }
 

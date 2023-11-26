@@ -316,7 +316,7 @@
           <h3>Review Your Order</h3>
 
           <p>Total Quantity: {{ totalQuantity }}</p>
-          <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
+          <p>Total Price: {{  storage.getItem('totalPrice') | currency: 'USD' }}</p>
           <p>Shipping: {{ shippingPrice | currency: 'USD' }}</p>
           <p>Total Price + Shipping: {{ totalPrice + shippingPrice | currency: 'USD' }}</p>
         </div>

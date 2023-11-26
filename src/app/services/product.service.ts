@@ -67,6 +67,10 @@ export class ProductService {
       map(response => response._embedded.productCategory)
     );
   }
+  
+  getProductCategory(url:any): Observable<ProductCategory> {
+    return this.httpClient.get<ProductCategory>(url);
+  }
 
   // New method to fetch additional items
   // getAdditionalItems(additionalItemsId: number): Observable<GetResponseAdditionalItemsCategory> {

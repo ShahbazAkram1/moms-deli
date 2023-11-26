@@ -4,6 +4,9 @@ import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/app/common/product';
 import { AdditionalItem } from 'src/app/common/AdditionalItem';
 import { AdditionalItemsService } from 'src/app/services/additional-items.service';
+import { ProductService } from 'src/app/services/product.service';
+import { ProductCategory } from 'src/app/common/product-category';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cart-details',
@@ -20,22 +23,24 @@ export class CartDetailsComponent implements OnInit {
   product!: Product[];
   selectedAdditionalItems: AdditionalItem[] = [];
   totalAdditionalPrice = 0;
-  listOfAdditionItems: AdditionalItem[] = []; 
+  listOfAdditionItems: any; 
 
   cartItem!:CartItem;
 
   storage: Storage = sessionStorage;
+  productCategory:any;
 
-  constructor(private cartService: CartService, private additionItemService:AdditionalItemsService) { }
+  constructor(private cartService: CartService,private productService:ProductService, private additionItemService:AdditionalItemsService) { }
 
   ngOnInit(): void {
     this.listCartDetails();
-    this.getAllAdtionItemService();
   }
 
   listCartDetails() {
     // get a handle to the cart items
     this.cartItems = this.cartService.cartItems;
+    this.getProductCategory();
+    
     // this.selectedAdditionalItems = this.cartItems.map(item => item.selectedAdditionalItems).flat();
 
     // subscribe to the cart totalPrice
@@ -72,15 +77,18 @@ export class CartDetailsComponent implements OnInit {
   }
 
   // 
-  public getAllAdtionItemService(){
-    this.additionItemService.getAllAdditionalItem().subscribe
+
+  public getAllAdtionItemService(productCategory:ProductCategory[]){
+    console.log("getAllAddition()l;");
+   console.log(productCategory);
+    this.additionItemService.getAdditionalItemsForProductCategory(productCategory).subscribe
     (data=>{
       console.log(data)
       this.listOfAdditionItems = data;
-      
-    },
-    
+    }
+,
     (error:any)=>{
+      console.log(error);
         console.log("There is an error");
     })
   }
@@ -101,7 +109,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   public getTotalAdditionalPrice(){
-    this.totalAdditionalPrice = 0;
+    this.totalAdditionalPrice = 0
     for(let item of this.selectedAdditionalItems){
       if(this.checkInSelection(item)){
          this.totalAdditionalPrice+=item.price;
@@ -116,7 +124,6 @@ export class CartDetailsComponent implements OnInit {
     oldPrice = oldPrice + price; // or oldPrice += price;
     let newPriceAsString = oldPrice.toString();
     this.storage.setItem("totalPrice", newPriceAsString);
-
 } 
 
 public decreacePriceWhenAdditionItemRemove(price:number){
@@ -128,6 +135,19 @@ public decreacePriceWhenAdditionItemRemove(price:number){
 
   }
   
-
-
+  public getProductCategory() {
+    console.log("getAllProductCategory()l;");
+    const observables = this.cartItems.map(item => this.productService.getProductCategory(item.category.href));
+    forkJoin(observables).subscribe(
+      data => {
+        console.log(data);
+        this.productCategory = data;
+        this.getAllAdtionItemService(this.productCategory);
+    
+      },
+      error => {
+        console.log("error");
+      }
+    );
+  }
 } 

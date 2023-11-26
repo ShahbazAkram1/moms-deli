@@ -1,5 +1,6 @@
 import { Product } from './product';
 import { AdditionalItem } from './AdditionalItem'; // Import AdditionalItem if not already imported
+import { ProductCategory } from './product-category';
 
 export class CartItem {
 
@@ -13,10 +14,10 @@ export class CartItem {
     selectedToppings: string[];
     selectedAdditionalItems: any;
     description: string;
+    category:ProductCategory;
     // selectedDrink: string;
     
-
-    constructor(product: Product,  selectedToppings: string[], additionalItems: AdditionalItem[] = []) {
+    constructor(product: Product,  selectedToppings: string[], additionalItems: AdditionalItem[] = [],category:ProductCategory) {
         this.id = product.id;
         this.name = product.name;
         this.imageUrl = product.imageUrl;
@@ -26,6 +27,7 @@ export class CartItem {
         this.additionalItems = additionalItems;
         this.selectedToppings = selectedToppings;
         this.description = product.description;
+        this.category=category;
         //this.selectedDrink = 'none';
     }
 }
