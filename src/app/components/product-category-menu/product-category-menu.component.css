@@ -1,28 +1,55 @@
-.categories-list {
-  display: flex;
-  /* justify-content: center; */
-  justify-content: flex-start;
-  /* gap: 10px; */
+body {
+  font-family: Arial, sans-serif;
+}
+h1,p {
+text-align: center;
 }
 
-.category-link {
-  display: inline-block; 
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: none;
-  color: #ffffff;
-  text-decoration: none;
-  font-family: 'Arial Rounded MT Bold', sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s;
-  box-shadow: none; /* Remove default box-shadow */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.category-link:hover {
-  color: #ffffff;
-  background-color: transparent;
-  text-decoration: underline;
-  box-shadow: none; /* Remove box-shadow on hover */
+.tag-buttons-container {
+display: flex;
+max-width: 800px;
+margin: 0 auto;
+
+}
+
+.tag-buttons {
+display: inline-flex; 
+gap: 10px;
+padding: 0 20px;
+align-items: center; 
+white-space: nowrap; 
+}
+
+.tag-button {
+padding: 5px 15px;
+border-radius: 20px;
+background-color: rgb(218, 218, 218);
+border: none;
+cursor: pointer;
+}
+
+.tag-button:hover {
+background-color: rgb(196, 196, 196);
+}
+
+.tag-button.active {
+background-color: #555;
+color: white;
+}
+
+.post {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+
+
+#loadMoreButton:hover {
+background-color: #f0f0f0;
 }

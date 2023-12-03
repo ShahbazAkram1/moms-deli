@@ -106,10 +106,28 @@ export class ProductListComponent implements OnInit {
     if (hasCategoryId) {
       // get the "id" param string. convert string to a number using the "+" symbol
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+      
+    this.previousCategoryId = this.currentCategoryId;
+
+    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+
+    // now get the products for the given category id
+    this.productService.getProductListPaginate(this.thePageNumber - 1,
+                                               this.thePageSize,
+                                               this.currentCategoryId)
+                                               .subscribe(this.processResult());
     }
     else {
-      // not category id available ... default to category id 1
-      this.currentCategoryId = 1;
+
+      this.previousCategoryId = this.currentCategoryId;
+
+      console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+  
+      // now get the products for the given category id
+      this.productService.getAllProduct(this.thePageNumber - 1,
+                                                 this.thePageSize,
+                                                 this.currentCategoryId)
+                                                 .subscribe(this.processResult());
     }
 
     //
@@ -123,15 +141,6 @@ export class ProductListComponent implements OnInit {
       this.thePageNumber = 1;
     }
 
-    this.previousCategoryId = this.currentCategoryId;
-
-    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
-
-    // now get the products for the given category id
-    this.productService.getProductListPaginate(this.thePageNumber - 1,
-                                               this.thePageSize,
-                                               this.currentCategoryId)
-                                               .subscribe(this.processResult());
   }
 
   processResult() {

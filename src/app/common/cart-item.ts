@@ -15,6 +15,7 @@ export class CartItem {
     selectedAdditionalItems: any;
     description: string;
     category:ProductCategory;
+    specificInstruction:string="";
     // selectedDrink: string;
     
     constructor(product: Product,  selectedToppings: string[], additionalItems: AdditionalItem[] = [],category:ProductCategory) {

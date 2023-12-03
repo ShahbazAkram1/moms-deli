@@ -1,28 +1,47 @@
 <!-- navbar.component.html -->
-
-<mat-toolbar style="background-color: black; color: white;">
-  <p>&nbsp;</p><mat-toolbar-row>
-
+<mat-toolbar style="background-color: black; color: white; height: 30px;">
+  <mat-toolbar-row>
+    
     <!-- Logo -->
     <div fxHide.lt-sm="true" fxShow.gt-md="true">
       <a href="#">
         <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150">
       </a>
-      <p>&nbsp;</p>
     </div>
 
-
-    <div fxHide.lt-md="true">
-      <app-product-category-menu></app-product-category-menu>
-      <!-- <p>&nbsp;</p> -->
+    <!-- Search Input -->
+    <div class="search-input" style="flex: 1;">
+      <!-- <app-search style="width: 100%;"></app-search> -->
     </div>
 
     <!-- Cart -->
-    <div class="cart-area" fxShow="true" fxHide.lt-md="true">
+    <div class="cart-area bg-white" fxShow="true" fxHide.lt-md="true"  >
       <a class="nav-link" routerLink="/cart-details">
         <app-cart-status></app-cart-status>
-        <p>&nbsp;</p>
       </a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<style>
+  /* Add this CSS to your styles file or in your global styles file */
+
+  .search-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+  }
+
+  app-search {
+    width: 100%;
+  }
+
+  input {
+    color: white;
+  }
+
+  mat-icon {
+    color: white;
+  }
+</style>

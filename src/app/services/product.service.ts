@@ -27,6 +27,12 @@ export class ProductService {
     return this.httpClient.get<AdditionalItem[]>(this.additionalItemUrl);
   }
 
+  getAllProduct(thePage: number, 
+    thePageSize: number, 
+    theCategoryId: number): Observable<GetResponseProducts> {
+      return this.httpClient.get<GetResponseProducts>(this.baseUrl);
+  }
+
   getProduct(theProductId: number): Observable<Product> {
     const productUrl = `${this.baseUrl}/${theProductId}`;
     return this.httpClient.get<Product>(productUrl);
@@ -103,7 +109,9 @@ interface GetResponseProducts {
     totalElements: number,
     totalPages: number,
     number: number
-  }
+  },
+  productCategory: ProductCategory;
+
 }
 
 interface GetResponseProductCategory {

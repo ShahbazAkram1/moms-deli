@@ -1,19 +1,22 @@
+
 <div class="container">
     <div class="row" *ngIf="cartItems.length > 0">
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="cart-container">
+                    <div class=" ">
                         <div *ngFor="let tempCartItem of cartItems" class="card card-body p-3 mb-3">
-                        
                             <div class="row no-gutters">
                                 <div class="col-md-4">
                                     <img [src]="tempCartItem.imageUrl" alt="{{ tempCartItem.name }}" class="card-img" style="width:100%;">
                                 </div>
-                                <div class="col-md-8">
+                    
+                                <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <h5>{{ tempCartItem.name }}</h5>
+                                            <p class="card-text">{{ tempCartItem.price | currency: 'USD' }}</p>
+
                                             <div class="items">
                                                 <label>Quantity:</label>
                                                 <div fxLayout="row" fxLayoutGap="10px">
@@ -33,47 +36,50 @@
                                                 <button (click)="remove(tempCartItem)"
                                                     class="btn btn-danger btn-sm mt-2">Remove</button>
                                                 <p class="mt-2">Subtotal: {{ tempCartItem.quantity *
-                                                    tempCartItem.price | currency: 'USD' }}</p>
+                                                    tempCartItem.price | currency: 'USD' }}
+                                                </p>
                                             </div>
                                         </div>
 
                                       
-                                        <div class="col-md-4">
-                                            <p class="card-text">{{ tempCartItem.price | currency: 'USD' }}</p>
-                                            <div *ngFor="let addsOn of tempCartItem.additionalItems">
-                                                {{ addsOn.name }}
-                                            </div>
-                                        </div>
+                                      
                                     </div>
                                 </div>
+                               <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="row">
+
+                                        <mat-form-field *ngIf="tempCartItem.additionalItems.length>0">
+                                            <mat-label>Select Addition Items</mat-label>
+                                            <mat-select multiple [(ngModel)]="selectedAdditionItems[tempCartItem.id]" (selectionChange)="handleSelectionChange(tempCartItem)" name="tempSelectAdditionItem">
+                                              <mat-option *ngFor="let item of tempCartItem.additionalItems" [value]="item">
+                                                <!-- Display category information -->
+                                                <img src="" alt="{{ item.name }}" height="30" width="30">
+                                                {{ item.name }}
+                                                <span class="price">{{ item.price | currency:'USD':'symbol' }}</span>
+                                                <hr>
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                         
+                                      </div>
+                                      
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Specific Instruction</label>
+                                    <textarea [(ngModel)]="tempCartItem.specificInstruction" name="specificInstruction" class="form-control"></textarea>
+                                </div>
+                               </div>
                             </div>
+                           
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-12">
                     <!-- Add-ons -->
    <div class="addons-container" *ngIf="cartItems.length !== 0">
-<h5>Add-ons</h5>
-<div class="row">
-    <ng-container *ngFor="let group of listOfAdditionItems">
-      <ng-container *ngFor="let item of group">
-        <li class="card col-md-4 mb-3 addon-card">
-          <img [src]="item.imageURL" alt="{{ item.name }}" class="card-img-top" />
-          <div class="card-body">
-            <p class="card-text btn btn-success rounded-pill btn-sm" (click)="addAdditoinItem(item)" [hidden]="checkInSelection(item)">
-              {{ item.name }} - {{ item.price | currency: 'USD' }}
-            </p>
-            <p class="card-text btn btn-danger rounded-pill btn-sm" (click)="removeFromAdditionItemSelected(item)" [hidden]="!checkInSelection(item)">
-              Remove {{ item.name }}
-            </p>
-          </div>
-        </li>
-      </ng-container>
-    </ng-container>
-    <ng-container *ngIf="listOfAdditionItems.length==0">
-        <h2>Addition Items Not Found</h2>
-    </ng-container>
-  </div>
+
   
 </div>
              </div>
@@ -83,19 +89,19 @@
 
         <div class="col-md-4">
             <div class="card summary-container">
-                <!-- Summary and Checkout -->
-                <p style="font-weight: bold">Total Quantity: {{ totalQuantity }}</p>
+                <p style="font-weight: bold"> Total Quantity: {{ totalQuantity }}</p>
                 <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
                 <p>Selected Additional Items:</p>
+                
                 <ul>
                     <li *ngFor="let additionalItem of selectedAdditionalItems">
                         {{ additionalItem.name }} - {{ additionalItem.price | currency: 'USD' }}
                     </li>
                 </ul>
                 <p>Shipping: {{ shippingPrice | currency: 'USD' }}</p>
-                <p style="font-weight: bold">Total Price + Shipping: {{
-                    totalPrice + shippingPrice + getTotalAdditionalPrice() | currency: 'USD' }}</p>
-                <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
+                <p style="font-weight: bold"> Total Price + Shipping: 
+                {{    totalPrice + shippingPrice  | currency: 'USD' }}</p>
+                <button (click)="toOrderPlace()" class="btn btn-primary">Checkout</button>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@ export class AdditionalItemsService {
     const additionalItemsUrl = `${this.additionalItemUrl}/${productId}`;
     return this.httpClient.get<GetResponseAdditionalItemsCategory>(additionalItemsUrl);
   }  
-  getAdditionalItemsForProductCategory(productCategory: ProductCategory[]): Observable<GetResponseAdditionalItemsCategory> {
+  getAdditionalItemsForProductCategory(productCategory: ProductCategory): Observable<GetResponseAdditionalItemsCategory> {
     const additionalItemsUrl = `${this.additionalItemUrl}/getByProductCategory`;
     return this.httpClient.post<GetResponseAdditionalItemsCategory>(additionalItemsUrl,productCategory);
   }  

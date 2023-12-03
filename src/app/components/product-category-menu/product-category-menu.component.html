@@ -1,28 +1,18 @@
-<mat-toolbar style="background-color: black;">
-    <!-- Desktop Categories List -->
-    <mat-toolbar-row class="categories-list" *ngIf="!mobileQuery.matches">
-      <button mat-button class="category-link" 
+
+  <div class="container-fluid">
+      <div class="tag-buttons-container">      
+      <div class="tag-buttons">
+          <button class="tag-button active"   [routerLink]="'/products'" data-tag="all"> All </button>
+          <button  class="tag-button" 
               *ngFor="let tempProductCategory of productCategories" 
               [routerLink]="['/category', tempProductCategory.id]" 
               routerLinkActive="active-link">
         {{ tempProductCategory.categoryName }}
-      </button>
-    </mat-toolbar-row>
+          </button>
+          <!-- Add more buttons for your tags here -->
+      </div>
+  </div>
+    
+  </div>
+
   
-    <!-- Mobile Categories Menu -->
-    <mat-toolbar-row *ngIf="mobileQuery.matches">
-      <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
-        <mat-icon>menu</mat-icon>
-      </button>
-  
-      <mat-menu #mobileMenu="matMenu">
-        <button mat-menu-item *ngFor="let tempProductCategory of productCategories" 
-                [routerLink]="['/category', tempProductCategory.id]" 
-                routerLinkActive="active-link" 
-                (click)="closeMobileCategories()">
-          {{ tempProductCategory.categoryName }}
-        </button>
-      </mat-menu>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <p>&nbsp;</p>

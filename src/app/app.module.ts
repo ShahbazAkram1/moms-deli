@@ -38,7 +38,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
 const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailsComponent},
@@ -89,7 +89,8 @@ const routes: Routes = [
     MatCheckboxModule,
     MatInputModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]

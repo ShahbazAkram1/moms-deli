@@ -6,7 +6,7 @@ import { CartService } from 'src/app/services/cart.service';
   templateUrl: './cart-status.component.html',
   styleUrls: ['./cart-status.component.css']
 })
-export class CartStatusComponent implements OnInit {
+export class  CartStatusComponent implements OnInit {
 
   totalPrice: number = 0.00;
   shippingPrice: number = 5.00;
@@ -30,6 +30,13 @@ export class CartStatusComponent implements OnInit {
       data => this.totalQuantity = data
     );
 
+    /* 
+      #TO DO WORK
+    
+    */
+    if(this.totalQuantity==0){
+      this.totalPrice = 0;
+    }
   }
 
 }

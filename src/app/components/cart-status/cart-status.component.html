@@ -1,26 +1,13 @@
-    <!-- <div class="cart-area d-n">
-<a routerLink="/cart-details"> -->
-        <!-- <div class="total">
-            <div>
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </div>
-            
-            {{ totalPrice | currency: 'USD' }}
-            <span>{{ totalQuantity }}</span> 
-        </div> 
-        <div> -->
-        
-    <!-- </a> 
-</div> -->
-<div class="total">
-    <div>
-      <mat-icon>shopping_cart</mat-icon>
-    </div>
-  
-    <div>
-      {{ storage.getItem('totalPrice') | currency: 'USD' }}
-      <span>{{ totalQuantity }}</span>
-    </div>
-  </div>
+<!-- Import the Material Icons font in your styles or index.html file -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<!-- ... -->
 <p>&nbsp;</p>
+
+<!-- Professional Cart Area with Badge -->
+<div class="cart-area" routerLink="/cart-details">
+  <mat-icon>shopping_cart</mat-icon>
+  <span class="badge">{{ totalQuantity }}</span>
+  <span class="price">{{ storage.getItem('totalPrice') | currency: 'USD' }}</span>
+</div>
+

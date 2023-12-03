@@ -7,6 +7,9 @@ import { AdditionalItemsService } from 'src/app/services/additional-items.servic
 import { ProductService } from 'src/app/services/product.service';
 import { ProductCategory } from 'src/app/common/product-category';
 import { forkJoin } from 'rxjs';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SharedService } from 'src/app/common/shared.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-details',
@@ -22,15 +25,26 @@ export class CartDetailsComponent implements OnInit {
   description: string = '';
   product!: Product[];
   selectedAdditionalItems: AdditionalItem[] = [];
+  selectedAdditionItems: { [productId: string]: any[] } = {};
   totalAdditionalPrice = 0;
   listOfAdditionItems: any; 
 
   cartItem!:CartItem;
 
   storage: Storage = sessionStorage;
-  productCategory:any;
+  productCategory:ProductCategory;
 
-  constructor(private cartService: CartService,private productService:ProductService, private additionItemService:AdditionalItemsService) { }
+  toppings = new FormControl();
+
+
+  constructor(private cartService: CartService,private productService:ProductService, private additionItemService:AdditionalItemsService,private sharedService: SharedService, private router:Router) { // Assuming tempCartItem is available in this component
+  const tempCartItem = this.cartItems;
+
+  // Send data to the shared service
+  // this.sharedService.sendTempCartItem(tempCartItem);
+    this.productCategory = {} as ProductCategory;
+  
+}
 
   ngOnInit(): void {
     this.listCartDetails();
@@ -39,8 +53,29 @@ export class CartDetailsComponent implements OnInit {
   listCartDetails() {
     // get a handle to the cart items
     this.cartItems = this.cartService.cartItems;
-    this.getProductCategory();
+  
+    this.cartItems.forEach(cartItem => {
+      const url = cartItem.category.href;
     
+      // Subscribe to getProductCategory and assign the result to cartItem.category
+      this.productService.getProductCategory(url).subscribe(
+        (productCategory: ProductCategory) => {
+          cartItem.category = productCategory;
+          this.additionItemService.getAdditionalItemsForProductCategory(productCategory).subscribe
+                (data=>{
+                  cartItem.additionalItems = data;
+                }
+            ,
+    (error:any)=>{
+      console.error(error);
+    })
+
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    });  
     // this.selectedAdditionalItems = this.cartItems.map(item => item.selectedAdditionalItems).flat();
 
     // subscribe to the cart totalPrice
@@ -69,53 +104,51 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.remove(theCartItem);
   }
 
-  addAdditoinItem(item: any) {
-    // Add item to the selection
-    this.increaseTotalPrice(item.price);
-    this.selectedAdditionalItems.push(item);
-     this.getTotalAdditionalPrice();
+  addAdditionItem(item: any,tempCartItem:CartItem) {
+    if (!this.checkForDuplicate(tempCartItem, item)) {
+      this.increaseTotalPrice(item.price);
+      tempCartItem.selectedAdditionalItems = tempCartItem.selectedAdditionalItems || [];
+      tempCartItem.selectedAdditionalItems.push(item);
+      this.getTotalAdditionalPrice();
+    }
   }
 
   // 
 
-  public getAllAdtionItemService(productCategory:ProductCategory[]){
-    console.log("getAllAddition()l;");
-   console.log(productCategory);
-    this.additionItemService.getAdditionalItemsForProductCategory(productCategory).subscribe
+  public getAllAdtionItemService(productCategory:ProductCategory){
+    // this.listOfAdditionItems=[]=[];
+    console.log("getAllAdditionItem RUnning");
+   return this.additionItemService.getAdditionalItemsForProductCategory(productCategory).subscribe
     (data=>{
-      console.log(data)
-      this.listOfAdditionItems = data;
+     return data;
     }
 ,
     (error:any)=>{
-      console.log(error);
-        console.log("There is an error");
+      return null;
     })
+    return null;
   }
 
-  removeFromAdditionItemSelected(item: any) {
-    const index = this.selectedAdditionalItems.indexOf(item);
+  removeFromAdditionItemSelected(tempCartItem: CartItem, item: any) {
+    const index = tempCartItem.selectedAdditionalItems?.indexOf(item);
     if (index !== -1) {
       this.decreacePriceWhenAdditionItemRemove(item.price);
-      this.selectedAdditionalItems.splice(index, 1);
+      tempCartItem.selectedAdditionalItems.splice(index, 1);
       this.getTotalAdditionalPrice();
-      
     }
-    this.getTotalAdditionalPrice();
   }
-
+  
   checkInSelection(item: any): boolean {
     return this.selectedAdditionalItems.includes(item);
   }
 
+  checkForDuplicate(tempCartItem: CartItem, item: any): boolean {
+    return tempCartItem.selectedAdditionalItems?.some((selectedItem: { id: any; }) => selectedItem.id === item.id);
+  }
+
   public getTotalAdditionalPrice(){
-    this.totalAdditionalPrice = 0
-    for(let item of this.selectedAdditionalItems){
-      if(this.checkInSelection(item)){
-         this.totalAdditionalPrice+=item.price;
-      }
-    }
-    return this.totalAdditionalPrice;
+    let price = this.storage.getItem("totalPrice");
+    this.totalPrice =  parseFloat(price || "0"); 
   }
 
   public increaseTotalPrice(price:number){
@@ -135,19 +168,43 @@ public decreacePriceWhenAdditionItemRemove(price:number){
 
   }
   
-  public getProductCategory() {
-    console.log("getAllProductCategory()l;");
-    const observables = this.cartItems.map(item => this.productService.getProductCategory(item.category.href));
-    forkJoin(observables).subscribe(
+  public getProductCategory(url:any) {
+
+    this.productService.getProductCategory(url).subscribe(
       data => {
         console.log(data);
         this.productCategory = data;
         this.getAllAdtionItemService(this.productCategory);
-    
+
       },
       error => {
-        console.log("error");
+        this.productCategory = {} as ProductCategory;
       }
     );
   }
+
+  handleSelectionChange(t:CartItem) {
+    // Iterate through selected items and add them to the selection
+    this.selectedAdditionItems[t.id].forEach(item => {
+      if (!this.checkInSelection(item)) {
+        this.addAdditionItem(item,t);
+        
+      }
+    });
+  
+    // Iterate through previously selected items and remove them from the selection
+    t.additionalItems.forEach(selectedItem => {
+      if (!this.selectedAdditionItems[t.id].includes(selectedItem)) {
+        this.removeFromAdditionItemSelected(t,selectedItem);
+      }
+    });
+  }
+
+  public toOrderPlace(){
+      const tempCartItem = this.cartItems;
+      this.sharedService.sendTempCartItem(tempCartItem)
+      this.router.navigate(['/checkout'])
+  }
+  
+  
 } 
