@@ -1,55 +1,31 @@
-body {
-  font-family: Arial, sans-serif;
-}
-h1,p {
-text-align: center;
+.product-category {
+  transition: transform 0.3s;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(13, 168, 228, 0.11);
 }
 
-.tag-buttons-container {
-display: flex;
-max-width: 800px;
-margin: 0 auto;
-
+.card-body {
+  cursor: pointer;
 }
-
-.tag-buttons {
-display: inline-flex; 
-gap: 10px;
-padding: 0 20px;
-align-items: center; 
-white-space: nowrap; 
+.active-link{
+  background: rgba(13, 168, 228, 0.11);
 }
-
-.tag-button {
-padding: 5px 15px;
-border-radius: 20px;
-background-color: rgb(218, 218, 218);
-border: none;
-cursor: pointer;
-}
-
-.tag-button:hover {
-background-color: rgb(196, 196, 196);
-}
-
-.tag-button.active {
-background-color: #555;
-color: white;
-}
-
-.post {
-  margin: 20px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
+.font-custom {
+  font-family: 'Your Custom Font', sans-serif; /* Replace 'Your Custom Font' with the actual font name */
+  font-size: 18px; /* Adjust the font size as needed */
+  /* Add any other font-related styles here */
 }
 
 
-
-#loadMoreButton:hover {
-background-color: #f0f0f0;
+.explore-menu {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.42); /* Adjust the background color to your preference */
+  color: #fff; /* Set text color to white or a contrasting color */
+  padding: 15px 20px; /* Adjust the padding for better spacing */
+  border-radius: 8px; /* Optional: Add border-radius for rounded corners */
+  font-family: 'Arial', sans-serif; /* Optional: Set a specific font-family */
 }

@@ -1,18 +1,32 @@
+<!-- app.component.html -->
+<h1 class="fade-in explore-menu">Explore the Menu</h1>
+<div class="row">
+    <div class="col-md-3 active">
+        <div class="card card-body font-custom fade-in" routerLinkActive="active-link" [routerLink]="'/products'" data-tag="all">
+            <p class="text-center">All</p>
+        </div>
+    </div>
+    <div class="col-md-3 mt-1" *ngFor="let tempProductCategory of productCategories">
+        <div class="card card-body font-custom fade-in" routerLinkActive="active-link" [routerLink]="['/category', tempProductCategory.id]">
+            <p class="text-center">{{ tempProductCategory.categoryName }}</p>
+        </div>
+    </div>
+</div>
 
-  <div class="container-fluid">
-      <div class="tag-buttons-container">      
-      <div class="tag-buttons">
-          <button class="tag-button active"   [routerLink]="'/products'" data-tag="all"> All </button>
-          <button  class="tag-button" 
-              *ngFor="let tempProductCategory of productCategories" 
-              [routerLink]="['/category', tempProductCategory.id]" 
-              routerLinkActive="active-link">
-        {{ tempProductCategory.categoryName }}
-          </button>
-          <!-- Add more buttons for your tags here -->
-      </div>
-  </div>
-    
-  </div>
+<!--  <div class="container-fluid">-->
+<!--      <div class="tag-buttons-container col-md-4">-->
+<!--      <div class="tag-buttons">-->
+<!--          <div  class="tag-button active"   [routerLink]="'/products'" data-tag="all"> All </div>-->
+<!--          <button  class="tag-button"-->
+<!--              *ngFor="let tempProductCategory of productCategories"-->
+<!--              [routerLink]="['/category', tempProductCategory.id]"-->
+<!--              routerLinkActive="active-link">-->
+<!--        {{ tempProductCategory.categoryName }}-->
+<!--          </button>-->
+<!--          &lt;!&ndash; Add more buttons for your tags here &ndash;&gt;-->
+<!--      </div>-->
+<!--  </div>-->
 
-  
+<!--  </div>-->
+
+

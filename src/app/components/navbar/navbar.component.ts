@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -18,5 +18,11 @@ export class NavbarComponent {
 
   showCategory(categoryName: string): void {
     this.selectedCategory = categoryName;
+  }
+  isScrolled: boolean = false;
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    this.isScrolled = window.scrollY > 50; // Adjust the scroll threshold as needed
   }
 }

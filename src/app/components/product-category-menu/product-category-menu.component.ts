@@ -2,11 +2,21 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductCategory } from 'src/app/common/product-category';
 import { ProductService } from 'src/app/services/product.service';
 import { MediaMatcher } from '@angular/cdk/layout';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-product-category-menu',
   templateUrl: './product-category-menu.component.html',
-  styleUrls: ['./product-category-menu.component.css']
+  styleUrls: ['./product-category-menu.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0,
+        transform: 'translateY(-20px)'
+      })),
+      transition('void <=> *', animate('0.5s ease-out'))
+    ])
+  ]
 })
 export class ProductCategoryMenuComponent implements OnInit, OnDestroy {
 

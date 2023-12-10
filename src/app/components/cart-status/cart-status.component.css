@@ -2,15 +2,10 @@
 .cart-area {
     display: flex;
     align-items: center;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
     margin-top: -70px;
     width: 110%;
     height:80px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease-in-out;
-    text-decoration: none;
-    color: #333;
+
   }
 
   .cart-area:hover {

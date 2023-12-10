@@ -67,4 +67,13 @@
    border: 1px solid #ffcaa6;
    background-color: #ffcaa6;
   }
-  
+
+
+.explore-menu {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.42); /* Adjust the background color to your preference */
+    color: #fff; /* Set text color to white or a contrasting color */
+    padding: 15px 20px; /* Adjust the padding for better spacing */
+    border-radius: 8px; /* Optional: Add border-radius for rounded corners */
+    font-family: 'Arial', sans-serif; /* Optional: Set a specific font-family */
+}

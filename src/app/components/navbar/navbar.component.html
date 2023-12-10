@@ -1,47 +1,20 @@
-<!-- navbar.component.html -->
-<mat-toolbar style="background-color: black; color: white; height: 30px;">
-  <mat-toolbar-row>
-    
-    <!-- Logo -->
-    <div fxHide.lt-sm="true" fxShow.gt-md="true">
-      <a href="#">
-        <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150">
-      </a>
-    </div>
+<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- app.component.html -->
+<header [ngClass]="{'scrolled': isScrolled}" class="bg-dark">
+  <a href="/">
+  <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150">
+  </a>
+  <nav>
+    <ul>
+      <li><a href="#">Orders</a></li>
+      <li>
+        <a class="nav-link" routerLink="/cart-details">
+          <app-cart-status></app-cart-status>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
 
-    <!-- Search Input -->
-    <div class="search-input" style="flex: 1;">
-      <!-- <app-search style="width: 100%;"></app-search> -->
-    </div>
-
-    <!-- Cart -->
-    <div class="cart-area bg-white" fxShow="true" fxHide.lt-md="true"  >
-      <a class="nav-link" routerLink="/cart-details">
-        <app-cart-status></app-cart-status>
-      </a>
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<style>
-  /* Add this CSS to your styles file or in your global styles file */
-
-  .search-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 10px;
-  }
-
-  app-search {
-    width: 100%;
-  }
-
-  input {
-    color: white;
-  }
-
-  mat-icon {
-    color: white;
-  }
-</style>
+<!-- ... rest of your content ... -->

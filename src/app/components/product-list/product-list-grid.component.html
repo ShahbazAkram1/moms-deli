@@ -1,13 +1,19 @@
 <!-- product-list.component.html -->
-<app-search></app-search>
-      <app-product-category-menu></app-product-category-menu>
+<app-home></app-home>
+      <app-product-category-menu class="mt-1"></app-product-category-menu>
+<hr class="mt-1">
+<div class="container-fluid mt-1">
+<h1 class="explore-menu">Explore The Food</h1>
+    <app-search></app-search>
+
+</div>
   <div class="main-content mt-3">
     <div class="section-content section-content-p30">
       <div class="container-fluid">
         <div class="row">
           <div *ngFor="let tempProduct of products" class="col-md-2">
 
-            <div class="card card-body mt-1">
+            <div class="mt-1 m-2">
                 <div class="card-img">
                     <a routerLink="/products/{{ tempProduct.id }}">
                       <img [src]="tempProduct.imageUrl" class="img-fluid" alt="{{ tempProduct.name }}">

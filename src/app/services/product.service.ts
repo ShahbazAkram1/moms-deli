@@ -75,6 +75,13 @@ export class ProductService {
   }
   
   getProductCategory(url:any): Observable<ProductCategory> {
+    console.log(url);
+  if(!url.toLowerCase().startsWith("http://localhost/")){
+    console.log("starts");
+    if (url.toLowerCase().startsWith('http://')) {
+        url =  url.replace(/^http:\/\//i, 'https://');
+          } 
+  }
     return this.httpClient.get<ProductCategory>(url);
   }
 
