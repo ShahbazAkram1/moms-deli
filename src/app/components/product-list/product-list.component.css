@@ -1,0 +1,28 @@
+
+.custom-button {
+  background-color: #4caf50; /* Set your desired background color */
+  color: #fff; /* Set your desired text color */
+  padding: 10px 20px; /* Set padding as needed */
+  border: none; /* Remove default border */
+  cursor: pointer;
+  align-items: center;
+  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+}
+
+.custom-button:hover {
+  background-color: #45a049; /* Set hover background color */
+  padding: 10px;
+  transition: 0.8s;
+
+}
+
+.card-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card-img-top:hover{
+  padding: 20px;
+  transition: 0.8s;
+}

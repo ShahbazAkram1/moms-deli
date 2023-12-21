@@ -1,0 +1,307 @@
+/* Reset and base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+  box-sizing: border-box;
+}
+
+
+/* Header styles */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  z-index: 1000;
+}
+
+header img {
+  max-width: 100%;
+}
+
+/* Navigation styles */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+/* Sidebar styles */
+nav {
+ display: none;
+  z-index: 2; /* Ensure the sidebar is above other content */
+}
+
+nav ul {
+  margin-top: 10px; /* Adjust based on your design */
+  flex-direction: column;
+  align-items: center;
+}
+
+nav li {
+  margin: 10px 0;
+}
+
+.nav-icon {
+  display: block;
+  font-size: 1.5em;
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 3; /* Ensure the icon is above other content */
+}
+
+/* Add some overlay to cover the rest of the content when the sidebar is shown */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1;
+}
+
+.overlay.show {
+  display: block;
+}
+
+/* Additional styles for the logo, cart icon, and cart link in mobile view */
+.logo {
+  display: none;
+}
+
+.nav-icon i {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .nav-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background-color: #333;
+    width: 100%;
+    padding: 10px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav li {
+    margin: 10px 0;
+  }
+
+  .nav-icon {
+    display: block;
+    font-size: 1.5em;
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 2; /* Ensure the icon is above other content */
+  }
+
+  /* Add some overlay to cover the rest of the content when the sidebar is shown */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+
+  .mobile-cart {
+    /* display: inline-block; */
+    display: flex; /* Use flexbox for vertical centering */
+    margin-left: auto;
+    margin-top: 0; /* Set the top margin to 0 */
+    align-items: flex-start;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+
+  nav {
+   
+    top: 80px;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    padding: 13px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+  nav ul {
+    margin-top: 100px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav li {
+    margin: 10px 10;
+  }
+
+  .nav-icon {
+    display: block;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+}
+
+/* Additional styles for the navigation toggle icon */
+.nav-icon {
+  display: none;
+}
+
+/* Media Query for showing the navigation toggle icon */
+@media (max-width: 768px) {
+  .nav-icon {
+    display: block;
+    font-size: 1.5em;
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+  }
+ 
+}
+/* ... existing styles ... */
+
+/* Additional styles for the logo, cart icon, and cart link in mobile view */
+.logo {
+  display: none;
+}
+
+.nav-icon i {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .mobile-cart {
+    display: flex;
+    margin-left: auto;
+    margin-top: -40px; /* Set the top margin to -40px to move up */
+    align-items: flex-start;
+  }
+  header {
+    flex-direction: column;
+    align-items: center;
+    height:15%;
+  }
+
+  .logo {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .nav-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background-color: #333;
+        width: 100%;
+    padding: 10px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+
+  /* ... existing styles for mobile navigation ... */
+}
+
+

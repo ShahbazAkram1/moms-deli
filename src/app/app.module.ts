@@ -7,7 +7,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
-import { Routes, RouterModule} from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
@@ -38,20 +38,23 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { HomeComponent } from './components/home/home.component';
+import { ToastrModule } from 'ngx-toastr';
 const routes: Routes = [
-  {path: 'checkout', component: CheckoutComponent},
-  {path: 'cart-details', component: CartDetailsComponent},
-  {path: 'products/:id', component: ProductDetailsComponent},
-  {path: 'search/:keyword', component: ProductListComponent},
-  {path: 'category/:id', component: ProductListComponent},
-  {path: 'category', component: ProductListComponent},
-  {path: 'products', component: ProductListComponent},
-  {path: 'about-us', component: AboutUsComponent }, 
-  {path: 'contact-us', component: ContactUsComponent }, 
-  // {path: 'contact-us', component: HelpComponent }, 
-  {path: '', redirectTo: '/products', pathMatch: 'full'},
-  {path: '**', redirectTo: '/products', pathMatch: 'full'}
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'cart-details', component: CartDetailsComponent },
+  { path: 'products/:id', component: ProductDetailsComponent },
+  { path: 'search/:keyword', component: ProductListComponent },
+  { path: 'category/:id', component: ProductListComponent },
+  { path: 'category', component: ProductListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: 'about-us', component: AboutUsComponent },
+  { path: 'contact-us', component: ContactUsComponent },
+  // {path: 'contact-us', component: HelpComponent },
+  { path: '', redirectTo: '/products', pathMatch: 'full' },
+  { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -68,9 +71,15 @@ const routes: Routes = [
     NavbarComponent,
     FooterComponent,
     MainContentComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    HomeComponent,
   ],
   imports: [
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
@@ -79,7 +88,7 @@ const routes: Routes = [
     GoogleMapsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatSelectModule, 
+    MatSelectModule,
     MatFormFieldModule,
     MatPaginatorModule,
     FormsModule,
@@ -89,9 +98,18 @@ const routes: Routes = [
     MatCheckboxModule,
     MatInputModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatIconModule,
+
   ],
   providers: [ProductService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,36 +1,39 @@
-<div class="main-content">
+<!-- product-list.component.html -->
+<div class="container">
+  <app-product-category-menu></app-product-category-menu>
+  <div class="mt-1">
+    <app-search></app-search>
+      
+  </div>
+  
+</div>
+<div class="main-content mt-1">
     <div class="section-content section-content-p30">
-        <div class="container-fluid">
-
-
+        <div class="container">
             <div class="row">
-                <div *ngFor="let tempProduct of products" class="col-md-3">
-                    <div class="product-box">
-                        <a routerLink="/products/{{ tempProduct.id }}">
-                            <img [src]="tempProduct.imageUrl" class="img-responsive">
-                        </a>
-                        <a class="product_name" routerLink="/products/{{ tempProduct.id }}">
-                            <h1>{{ tempProduct.name }}</h1>
-                        </a>
-                        <div class="price">{{ tempProduct.price | currency:'USD' }}</div>
-                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
+                <div *ngFor="let tempProduct of products" class="col-12 col-md-6 col-lg-3 mb-3 product-card">
 
-                        <!-- <div class="price">{{ tempProduct.price | currency:'USD' }}</div> -->
-                        <!-- <button (click)="openAdditionalItemsModal()">Toppings / Additional Items</button> -->
-
-                        <div *ngIf="tempProduct.showAdditionalItems">
-                            <h4>Additional Items</h4>
-                            <div *ngFor="let additionalItem of selectedAdditionalItems">
-                              <label>
-                                <input type="checkbox" [(ngModel)]="additionalItem.selected" [value]="additionalItem">
-                                {{ additionalItem.name }} - {{ additionalItem.price | currency:'USD' }}
-                              </label>
-                            </div>
+                    <div class="mb-3">
+                        <img src="{{ tempProduct.imageUrl }}" alt="{{ tempProduct.name }}" class="card-img-top" height="200" style="border-radius: 12px;">
+                        <div class="card-body">
+                            <a routerLink="/products/{{ tempProduct.id }}" style="text-decoration: none">
+                              <h6 class="card-title" >
+                                    {{ tempProduct.name }}
+                                </h6>
+                            </a>
+                            <p class="card-text">
+                                {{ tempProduct.price | currency:'USD' }}
+                            </p>
+                            <div class="text-center bg-"> 
+                            <button class="custom-button" (click)="addToCart(tempProduct)">
+                                Add To Cart
+                            </button>
+                          </div>
                         </div>
-                          
                     </div>
+
                 </div>
-                <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
+                <div *ngIf="products?.length === 0" class="alert alert-warning col-12" role="alert">
                     No products found.
                 </div>
             </div>
@@ -38,26 +41,20 @@
             <!-- begin footer -->
             <div class="footer-pagination">
                 <div class="row">
-                    <div class="col-md-6"></div>
-
-                    <div class="col-md-6">
-                        <div class="row">
-                            <!-- Paginator for the products -->
-                            <div class="col-md-12" style="text-align: center;">
-                                <mat-paginator [length]="theTotalElements"
-                                            [pageSize]="thePageSize"
-                                            [pageIndex]="thePageNumber - 1"
-                                            [pageSizeOptions]="[2, 5, 10, 20, 50]"
-                                            (page)="handlePageChange($event)">
-                                </mat-paginator>
-                            </div>
-                        </div>
+                    <!-- Paginator for the products -->
+                    <div class="col-12" style="text-align: center">
+                        <mat-paginator
+                            [length]="theTotalElements"
+                            [pageSize]="thePageSize"
+                            [pageIndex]="thePageNumber - 1"
+                            [pageSizeOptions]="[2, 5, 10, 20, 50]"
+                            (page)="handlePageChange($event)"
+                        >
+                        </mat-paginator>
                     </div>
-
                 </div>
             </div>
             <!-- end footer -->
-
         </div>
     </div>
 </div>

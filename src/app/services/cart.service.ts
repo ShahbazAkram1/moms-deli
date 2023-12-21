@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartItem } from '../common/cart-item';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CartService {
 
   storage: Storage = sessionStorage;
 
-  constructor() { }
+  constructor(private toast:ToastrService) { }
 
   addToCart(theCartItem: CartItem) {
 
@@ -34,10 +35,13 @@ export class CartService {
     if (alreadyExistsInCart) {
       // increment the quantity
       existingCartItem!.quantity++;
+      this.toast.success("Quantity Increased in Cart!");
     }
     else {
       // just add the item to the array
       this.cartItems.push(theCartItem);
+      this.toast.success("Added to Cart!");
+
     }
 
     // compute cart total price and total quantity

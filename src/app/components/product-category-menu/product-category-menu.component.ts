@@ -15,7 +15,13 @@ export class ProductCategoryMenuComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
 
   private readonly mobileQueryListener: () => void;
+  showTagButtons = false;
 
+  isSidebarVisible = false;
+
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
+  }
   constructor(
     private productService: ProductService,
     private changeDetectorRef: ChangeDetectorRef,

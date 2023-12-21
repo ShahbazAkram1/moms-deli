@@ -7,22 +7,21 @@ import { ProductCategory } from '../common/product-category';
 import { AdditionalItem } from '../common/AdditionalItem';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-  
   // private baseUrl = 'https://api.momsdelionline.com/api/products';
   // private categoryUrl = 'https://api.momsdelionline.com/api/product-category';
+  // private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
 
-  private baseUrl = 'http://localhost:8081/api/products';
-  private categoryUrl = 'http://localhost:8081/api/product-category';
-  private additionalItemUrl = "http://localhost:8081/api/additional-items";
+  private baseUrl = 'http://localhost:8080/api/products';
+  private categoryUrl = 'http://localhost:8080/api/product-category';
+  private additionalItemUrl = 'http://localhost:8080/api/additional-items';
 
   // we need a URL for additional items
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  
   getAllAdditionalItems(): Observable<AdditionalItem[]> {
     return this.httpClient.get<AdditionalItem[]>(this.additionalItemUrl);
   }
@@ -32,11 +31,14 @@ export class ProductService {
     return this.httpClient.get<Product>(productUrl);
   }
 
-  getProductListPaginate(thePage: number, 
-                         thePageSize: number, 
-                         theCategoryId: number): Observable<GetResponseProducts> {
-    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`
-                    + `&page=${thePage}&size=${thePageSize}`;
+  getProductListPaginate(
+    thePage: number,
+    thePageSize: number,
+    theCategoryId: number
+  ): Observable<GetResponseProducts> {
+    const searchUrl =
+      `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` +
+      `&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
@@ -50,22 +52,38 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
-  searchProductsPaginate(thePage: number, 
-                        thePageSize: number, 
-                        theKeyword: string): Observable<GetResponseProducts> {
-    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`
-                    + `&page=${thePage}&size=${thePageSize}`;
+  searchProductsPaginate(
+    thePage: number,
+    thePageSize: number,
+    theKeyword: string
+  ): Observable<GetResponseProducts> {
+    const searchUrl =
+      `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}` +
+      `&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
   private getProducts(searchUrl: string): Observable<Product[]> {
-    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(map(response => response._embedded.products));
+    return this.httpClient
+      .get<GetResponseProducts>(searchUrl)
+      .pipe(map((response) => response._embedded.products));
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
-      map(response => response._embedded.productCategory)
-    );
+    return this.httpClient
+      .get<GetResponseProductCategory>(this.categoryUrl)
+      .pipe(map((response) => response._embedded.productCategory));
+  }
+
+  getProductCategory(url: any): Observable<ProductCategory> {
+    console.log(url);
+    if(!url.toLowerCase().startsWith("http://localhost")){
+      console.log("starts");
+      if (url.toLowerCase().startsWith('http://')) {
+          url =  url.replace(/^http:\/\//i, 'https://');
+            }
+    }
+    return this.httpClient.get<ProductCategory>(url);
   }
 
   // New method to fetch additional items
@@ -87,25 +105,24 @@ export class ProductService {
   //       })
   //     );
   // }
-
 }
 
 interface GetResponseProducts {
   _embedded: {
     products: Product[];
-  },
+  };
   page: {
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-  }
+    size: number;
+    totalElements: number;
+    totalPages: number;
+    number: number;
+  };
 }
 
 interface GetResponseProductCategory {
   _embedded: {
     productCategory: ProductCategory[];
-  }
+  };
 }
 
 // interface GetResponseAdditionalItemsCategory {

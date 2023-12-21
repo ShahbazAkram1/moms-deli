@@ -4,48 +4,93 @@ import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/app/common/product';
 import { AdditionalItem } from 'src/app/common/AdditionalItem';
 import { AdditionalItemsService } from 'src/app/services/additional-items.service';
+import { ProductService } from 'src/app/services/product.service';
+import { ProductCategory } from 'src/app/common/product-category';
+import { forkJoin, Observable } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedService } from 'src/app/common/shared.service';
+import { Route, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart-details',
   templateUrl: './cart-details.component.html',
-  styleUrls: ['./cart-details.component.css']
+  styleUrls: ['./cart-details.component.css'],
 })
 export class CartDetailsComponent implements OnInit {
-
   cartItems: CartItem[] = [];
-  shippingPrice: number = 5.00;
+  shippingPrice: number = 5.0;
   totalPrice: number = 0;
   totalQuantity: number = 0;
   description: string = '';
   product!: Product[];
   selectedAdditionalItems: AdditionalItem[] = [];
+  selectedAdditionItems: { [productId: string]: any[] } = {};
   totalAdditionalPrice = 0;
-  listOfAdditionItems: AdditionalItem[] = []; 
+  listOfAdditionItems: any;
 
-  cartItem!:CartItem;
+  cartItem!: CartItem;
 
   storage: Storage = sessionStorage;
+  productCategory: ProductCategory;
 
-  constructor(private cartService: CartService, private additionItemService:AdditionalItemsService) { }
+  toppings = new FormControl();
+
+  constructor(
+    private cartService: CartService,
+    private productService: ProductService,
+    private additionItemService: AdditionalItemsService,
+    private sharedService: SharedService,
+    private router: Router,
+    private httpClient: HttpClient
+  ) {
+    // Assuming tempCartItem is available in this component
+    const tempCartItem = this.cartItems;
+
+    // Send data to the shared service
+    // this.sharedService.sendTempCartItem(tempCartItem);
+    this.productCategory = {} as ProductCategory;
+  }
 
   ngOnInit(): void {
     this.listCartDetails();
-    this.getAllAdtionItemService();
   }
 
   listCartDetails() {
     // get a handle to the cart items
     this.cartItems = this.cartService.cartItems;
+
+    this.cartItems.forEach((cartItem) => {
+      const url = cartItem.category.href;
+
+      // Subscribe to getProductCategory and assign the result to cartItem.category
+      this.productService.getProductCategory(url).subscribe(
+        (productCategory: ProductCategory) => {
+          cartItem.category = productCategory;
+          this.additionItemService
+            .getAdditionalItemsForProductCategory(productCategory)
+            .subscribe(
+              (data) => {
+                cartItem.additionalItems = data;
+              },
+              (error: any) => {
+                console.error(error);
+              }
+            );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    });
     // this.selectedAdditionalItems = this.cartItems.map(item => item.selectedAdditionalItems).flat();
 
     // subscribe to the cart totalPrice
-    this.cartService.totalPrice.subscribe(
-      data => this.totalPrice = data
-    );
+    this.cartService.totalPrice.subscribe((data) => (this.totalPrice = data));
 
     // subscribe to the cart totalQuantity
-    this.cartService.totalQuantity.subscribe( 
-      data => this.totalQuantity = data
+    this.cartService.totalQuantity.subscribe(
+      (data) => (this.totalQuantity = data)
     );
 
     // compute cart total price and quantity
@@ -64,70 +109,107 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.remove(theCartItem);
   }
 
-  addAdditoinItem(item: any) {
-    // Add item to the selection
-    this.increaseTotalPrice(item.price);
-    this.selectedAdditionalItems.push(item);
-     this.getTotalAdditionalPrice();
+  addAdditionItem(item: any, tempCartItem: CartItem) {
+    if (!this.checkForDuplicate(tempCartItem, item)) {
+      this.increaseTotalPrice(item.price);
+      tempCartItem.selectedAdditionalItems =
+        tempCartItem.selectedAdditionalItems || [];
+      tempCartItem.selectedAdditionalItems.push(item);
+      this.getTotalAdditionalPrice();
+    }
   }
 
-  // 
-  public getAllAdtionItemService(){
-    this.additionItemService.getAllAdditionalItem().subscribe
-    (data=>{
-      console.log(data)
-      this.listOfAdditionItems = data;
-      
-    },
-    
-    (error:any)=>{
-        console.log("There is an error");
-    })
+  //
+
+  public getAllAdtionItemService(productCategory: ProductCategory) {
+    // this.listOfAdditionItems=[]=[];
+    console.log('getAllAdditionItem RUnning');
+    return this.additionItemService
+      .getAdditionalItemsForProductCategory(productCategory)
+      .subscribe(
+        (data) => {
+          return data;
+        },
+        (error: any) => {
+          return null;
+        }
+      );
+    return null;
   }
 
-  removeFromAdditionItemSelected(item: any) {
-    const index = this.selectedAdditionalItems.indexOf(item);
+  removeFromAdditionItemSelected(tempCartItem: CartItem, item: any) {
+    const index = tempCartItem.selectedAdditionalItems?.indexOf(item);
     if (index !== -1) {
       this.decreacePriceWhenAdditionItemRemove(item.price);
-      this.selectedAdditionalItems.splice(index, 1);
+      tempCartItem.selectedAdditionalItems.splice(index, 1);
       this.getTotalAdditionalPrice();
-      
     }
-    this.getTotalAdditionalPrice();
   }
 
   checkInSelection(item: any): boolean {
     return this.selectedAdditionalItems.includes(item);
   }
 
-  public getTotalAdditionalPrice(){
-    this.totalAdditionalPrice = 0;
-    for(let item of this.selectedAdditionalItems){
-      if(this.checkInSelection(item)){
-         this.totalAdditionalPrice+=item.price;
-      }
-    }
-    return this.totalAdditionalPrice;
+  checkForDuplicate(tempCartItem: CartItem, item: any): boolean {
+    return tempCartItem.selectedAdditionalItems?.some(
+      (selectedItem: { id: any }) => selectedItem.id === item.id
+    );
   }
 
-  public increaseTotalPrice(price:number){
-    let oldPriceString = this.storage.getItem("totalPrice");
-    let oldPrice = parseFloat(oldPriceString || "0"); // Use a default value if the string is null or undefined
+  public getTotalAdditionalPrice() {
+    let price = this.storage.getItem('totalPrice');
+    this.totalPrice = parseFloat(price || '0');
+  }
+
+  public increaseTotalPrice(price: number) {
+    let oldPriceString = this.storage.getItem('totalPrice');
+    let oldPrice = parseFloat(oldPriceString || '0'); // Use a default value if the string is null or undefined
     oldPrice = oldPrice + price; // or oldPrice += price;
     let newPriceAsString = oldPrice.toString();
-    this.storage.setItem("totalPrice", newPriceAsString);
+    this.storage.setItem('totalPrice', newPriceAsString);
+  }
 
-} 
+  public decreacePriceWhenAdditionItemRemove(price: number) {
+    let oldPriceString = this.storage.getItem('totalPrice');
+    let oldPrice = parseFloat(oldPriceString || '0'); // Use a default value if the string is null or undefined
+    oldPrice = oldPrice - price; // or oldPrice += price;
+    let newPriceAsString = oldPrice.toString();
+    this.storage.setItem('totalPrice', newPriceAsString);
+  }
 
-public decreacePriceWhenAdditionItemRemove(price:number){
-      let oldPriceString = this.storage.getItem("totalPrice");
-      let oldPrice = parseFloat(oldPriceString || "0"); // Use a default value if the string is null or undefined
-      oldPrice = oldPrice - price; // or oldPrice += price;
-      let newPriceAsString = oldPrice.toString();
-      this.storage.setItem("totalPrice", newPriceAsString);
-
+  getProductCategory(url: any): Observable<ProductCategory> {
+    console.log(url);
+    if (!url.toLowerCase().startsWith("http://api.momsdelionline.com/api/")) {
+      console.log("starts");
+      if (url.toLowerCase().startsWith('http://')) {
+        // Correct the regular expression for replacing 'http://' with 'https://'
+        url = url.replace(/^http:\/\//i, 'https://');
+      }
+    }
+    // Use the injected httpClient to make the HTTP GET request
+    return this.httpClient.get<ProductCategory>(url);
   }
   
 
+  handleSelectionChange(t: CartItem) {
+    // Iterate through selected items and add them to the selection
+    this.selectedAdditionItems[t.id].forEach((item) => {
+      if (!this.checkInSelection(item)) {
+        this.addAdditionItem(item, t);
+      }
+    });
 
-} 
+    // Iterate through previously selected items and remove them from the selection
+    t.additionalItems.forEach((selectedItem) => {
+      if (!this.selectedAdditionItems[t.id].includes(selectedItem)) {
+        this.removeFromAdditionItemSelected(t, selectedItem);
+      }
+    });
+  }
+
+  public toOrderPlace() {
+    const tempCartItem = this.cartItems;
+    this.sharedService.sendTempCartItem(tempCartItem);
+    this.router.navigate(['/checkout']);
+  }
+}

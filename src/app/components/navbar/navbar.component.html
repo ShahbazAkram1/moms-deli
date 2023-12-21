@@ -1,28 +1,55 @@
-<!-- navbar.component.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<mat-toolbar style="background-color: black; color: white;">
-  <p>&nbsp;</p><mat-toolbar-row>
+</head>
+<body>
+  <header class="bg-dark">
+    <a href="/">
+      <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150" />
+    
 
-    <!-- Logo -->
-    <div fxHide.lt-sm="true" fxShow.gt-md="true">
-      <a href="#">
-        <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150">
-      </a>
-      <p>&nbsp;</p>
+    </a>
+
+
+    
+    <div class="nav-icon" (click)="toggleNav()">
+      <i class="fa fa-bars"></i>
+      
     </div>
-
-
-    <div fxHide.lt-md="true">
-      <app-product-category-menu></app-product-category-menu>
-      <!-- <p>&nbsp;</p> -->
+    <div class="mobile-cart"> 
+    <div class="float-end"> 
+      <app-cart-status></app-cart-status>
     </div>
-
-    <!-- Cart -->
-    <div class="cart-area" fxShow="true" fxHide.lt-md="true">
-      <a class="nav-link" routerLink="/cart-details">
-        <app-cart-status></app-cart-status>
-        <p>&nbsp;</p>
-      </a>
     </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+    <nav>
+      <ul>
+        <li class="cart-link">
+          <a class="nav-link" routerLink="/cart-details">
+            <app-cart-status></app-cart-status>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+  </header>
+
+
+<nav [ngClass]="{'show': isSidebarShown}" class="bg-dark">
+  <ul>
+    <li *ngFor="let tempProductCategory of productCategories">
+      <a  (click)="byCategory(tempProductCategory.id)" class="active"> {{tempProductCategory.categoryName}}</a></li>
+  </ul>
+</nav>
+
+<!-- <div class="overlay" [ngClass]="{'show': isSidebarShown}" (click)="toggleNav()"></div> -->
+
+<!-- ... rest of your HTML code ... -->
+
+
+</body>
+</html>

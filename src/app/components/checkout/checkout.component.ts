@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MomsDeliFormService } from 'src/app/services/moms-deli-form.service';
 import { Country } from 'src/app/common/country';
@@ -12,13 +12,18 @@ import { OrderItem } from 'src/app/common/order-item';
 import { Purchase } from 'src/app/common/purchase';
 import { PaymentInfo } from 'src/app/common/payment-info';
 import { environment } from 'src/environments/environment';
+import { SharedService } from 'src/app/common/shared.service';
+import { CartItem } from 'src/app/common/cart-item';
+import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit,AfterViewInit {
 
   checkoutFormGroup!: FormGroup;
 
@@ -30,6 +35,7 @@ export class CheckoutComponent implements OnInit {
   creditCardMonths: number[] = [];
 
   countries: Country[] = [];
+  @ViewChild('stepper') stepper!: MatStepper;
 
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
@@ -39,13 +45,24 @@ export class CheckoutComponent implements OnInit {
   paymentInfo: PaymentInfo = new PaymentInfo();
   cardElement: any;
   displayError: any = "";
-
+  receivedTempCartItem:any;
+  storage: Storage = sessionStorage;
+  selectedTab="customer"
   constructor(private formBuilder: FormBuilder,
               private MomsDeliFormService: MomsDeliFormService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
-              private router: Router) { }
+              private router: Router,
+              private sharedService: SharedService,
+              ) { }
+  ngAfterViewInit(): void {
+    this.setupStripePaymentForm();
+  }
 
+              public changeTab(tab:string){
+                this.selectedTab = tab;
+              }
+          
   ngOnInit(): void {
     this.creditCardMonths = [];
     this.creditCardYears = [];
@@ -53,50 +70,55 @@ export class CheckoutComponent implements OnInit {
     this.shippingAddressStates = [];
     this.billingAddressStates = [];
     this.displayError = "";
+
+ 
     // setup Stripe payment form
-    this.setupStripePaymentForm();
-;
+
+
+
 
     this.reviewCartDetails();
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', 
-                              [Validators.required, 
-                               Validators.minLength(2), 
+        firstName: new FormControl('',
+                              [Validators.required,
+                               Validators.minLength(2),
                                MomsDeliValidators.notOnlyWhitespace]),
 
-        lastName:  new FormControl('', 
-                              [Validators.required, 
-                               Validators.minLength(2), 
+        lastName:  new FormControl('',
+                              [Validators.required,
+                               Validators.minLength(2),
                                MomsDeliValidators.notOnlyWhitespace]),
-                               
+
         email: new FormControl('',
-                              [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
+                              [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+        phoneNumber: new FormControl('', 
+                              [Validators.required, Validators.pattern('^\\+?1?\\d{10}$')])
       }),
       shippingAddress: this.formBuilder.group({
-        street: new FormControl('', [Validators.required, Validators.minLength(2), 
+        street: new FormControl('', [Validators.required, Validators.minLength(2),
                                      MomsDeliValidators.notOnlyWhitespace]),
-        city: new FormControl('', [Validators.required, Validators.minLength(2), 
+        city: new FormControl('', [Validators.required, Validators.minLength(2),
                                    MomsDeliValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
-        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), 
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
                                       MomsDeliValidators.notOnlyWhitespace])
       }),
       billingAddress: this.formBuilder.group({
-        street: new FormControl('', [Validators.required, Validators.minLength(2), 
+        street: new FormControl('', [Validators.required, Validators.minLength(2),
                                      MomsDeliValidators.notOnlyWhitespace]),
-        city: new FormControl('', [Validators.required, Validators.minLength(2), 
+        city: new FormControl('', [Validators.required, Validators.minLength(2),
                                    MomsDeliValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
-        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), 
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
                                       MomsDeliValidators.notOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
     //     cardType: new FormControl('', [Validators.required]),
-    //     nameOnCard:  new FormControl('', [Validators.required, Validators.minLength(2), 
+    //     nameOnCard:  new FormControl('', [Validators.required, Validators.minLength(2),
     //                                       MomsDeliValidators.notOnlyWhitespace]),
     //     cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
     //     securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}')]),
@@ -130,14 +152,18 @@ export class CheckoutComponent implements OnInit {
 
     this.MomsDeliFormService.getCountries().subscribe(
       data => {
+        console.log("REVEVING THE DATA");
         console.log("Retrieved countries: " + JSON.stringify(data));
         this.countries = data;
+      },
+      error => {
+        console.log(error);
       }
     );
   }
 
   setupStripePaymentForm() {
-    
+
     // get a handle to stripe elements
     var elements = this.stripe.elements();
 
@@ -173,21 +199,21 @@ export class CheckoutComponent implements OnInit {
     this.cartService.totalQuantity.subscribe(
       totalQuantity => this.totalQuantity = totalQuantity
     );
+     
+    this.totalPrice  = parseFloat(this.storage.getItem('totalPrice') || "0");
 
     // subscribe to cartService.totalPrice
-    this.cartService.totalPrice.subscribe(
-      totalPrice => this.totalPrice = totalPrice
-    );
+    // this.cartService.totalPrice.subscribe(
+    //   totalPrice => this.totalPrice = totalPrice
+    // );
+    
 
   }
   async handleFormSubmission() {
     const { token, error } = await this.stripe.createToken(this.cardElement);
-  
     if (error) {
-      // Handle error (e.g., display error message to the user)
       console.error(error);
     } else {
-      // Send the token to your server to process the payment
       this.sendTokenToServer(token.id);
     }
   }
@@ -199,6 +225,7 @@ export class CheckoutComponent implements OnInit {
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
   get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
   get email() { return this.checkoutFormGroup.get('customer.email'); }
+  get phoneNumber() { return this.checkoutFormGroup.get('customer.phoneNumber'); }
 
   get shippingAddressStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
   get shippingAddressCity() { return this.checkoutFormGroup.get('shippingAddress.city'); }
@@ -245,13 +272,23 @@ export class CheckoutComponent implements OnInit {
     }
   }
   
+  isPurchasing = false;
 
   onSubmit() {
-    console.log("Handling the submit button");
+    console.log('Phone number:', this.phoneNumber?.value);  // Log the phone number
+
+    this.isPurchasing = true;
 
     if (this.checkoutFormGroup.invalid) {
+      this.isPurchasing = false;
+
       this.checkoutFormGroup.markAllAsTouched();
-      return;
+      Swal.fire({
+        icon:'error',
+        text:'All Fields are required Fill All The Fields!'
+        
+      });
+        return;
     }
 
     // set up order
@@ -264,18 +301,16 @@ export class CheckoutComponent implements OnInit {
 
     // create orderItems from cartItems
     // - long way
-    /*
-    let orderItems: OrderItem[] = [];
-    for (let i=0; i < cartItems.length; i++) {
-      orderItems[i] = new OrderItem(cartItems[i]);
-    }
-    */
+    this.sharedService.tempCartItem$.subscribe((tempCartItem) => {
+      this.receivedTempCartItem = tempCartItem;
+    });
 
     // - short way of doing the same thingy
-    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
+    let orderItems:OrderItem[] = (this.receivedTempCartItem as CartItem[]).map(t => new OrderItem(t));
 
     // set up purchase
     let purchase = new Purchase();
+    purchase.orderItems = orderItems;
     
     // populate purchase - customer
     purchase.customer = this.checkoutFormGroup.controls['customer'].value;
@@ -299,26 +334,25 @@ export class CheckoutComponent implements OnInit {
     purchase.orderItems = orderItems;
 
     // compute payment info
+  
+    
     this.paymentInfo.amount = this.totalPrice * 100;
     this.paymentInfo.currency = "USD";
+    // this.paymentInfo.receiptEmail = "test123";
+
+    console.log(purchase);
 
     // // call REST API via the CheckoutService
-    // this.checkoutService.placeOrder(purchase).subscribe({
-    //     next: response => {
-    //       alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
-
-    //       // reset cart
-    //       this.resetCart();
-
-    //     },
-    //     error: err => {
-    //       alert(`There was an error: ${err.message}`);
-    //     }
-    //   }
-    // );
+    this.checkoutService.placeOrder(purchase).subscribe(
+      data=>{
+        console.log(data);
+      },
+      error=>{
+        console.log(error);
+      }
+    );
     console.log(this.paymentInfo);
     if (!this.checkoutFormGroup.invalid) {
-        console.log("PAYING");
       this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe(
         (paymentIntentResponse) => {
           this.stripe.confirmCardPayment(paymentIntentResponse.client_secret,
@@ -330,15 +364,31 @@ export class CheckoutComponent implements OnInit {
           .then((result: { error: { message: any; }; }) => {
             if (result.error) {
               // inform the customer there was an error
-              alert(`There was an error: ${result.error.message}`);
+              Swal.fire({
+                icon:'error',
+                text:`There was an error: ${result.error.message}`
+
+              })
+              this.isPurchasing = false;;
+
             } else {
               // call REST API via the CheckoutService
-              this.checkoutService.placeOrder(purchase).subscribe({
+              console.log("ELse Calling");
+              this.checkoutService.placeOrder(purchase).subscribe(
+                {
                 next: response => {
-                  alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
+                  Swal.fire({
+                    title: "Your Order Replaced Successfully",
+                    text: `Order tracking number: ${response.orderTrackingNumber}`,
+                    imageUrl: "../../../assets/images/order_confirmed.png",
+                    imageWidth: 400,
+                    imageHeight: 200,
+                  });
+                  this.isPurchasing = false;
+
 
                   // reset cart
-                  this.resetCart();
+                  // this.resetCart();
                 },
                 error: err => {
                   alert(`There was an error: ${err.message}`);
@@ -367,7 +417,7 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup.reset();
 
     // navigate back to the products page
-    this.router.navigateByUrl("/products");
+    // this.router.navigateByUrl("/products");
   }
 
   handleMonthsAndYears() {
@@ -434,5 +484,15 @@ export class CheckoutComponent implements OnInit {
   //     data => this.totalPrice = data
   //   );
 
+  onNext() {
+    if (this.checkoutFormGroup.valid) {
+      this.stepper.next();
+    }
+  }
+
+  // Method to handle the "Previous" button click
+  onPrevious() {
+    this.stepper.previous();
+  }
 
 }

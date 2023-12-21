@@ -1,0 +1,29 @@
+/* Add this CSS to your styles file or in your HTML file */
+
+.product-card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.detail-img {
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #495057;
+  border-color: #495057;
+}
