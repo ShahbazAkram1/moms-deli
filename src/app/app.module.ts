@@ -42,6 +42,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from './components/home/home.component';
 import { ToastrModule } from 'ngx-toastr';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { SidebarComponent } from './admin/components/sidebar/sidebar.component';
+import { AdminContentComponent } from './admin/admin-content/admin-content.component';
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
@@ -53,7 +56,8 @@ const routes: Routes = [
   { path: 'about-us', component: AboutUsComponent },
   { path: 'contact-us', component: ContactUsComponent },
   // {path: 'contact-us', component: HelpComponent },
-  { path: '', redirectTo: '/products', pathMatch: 'full' },
+  { path: '', redirectTo: '/products', pathMatch: 'full' },  
+  { path: 'admin/dashboard',component:DashboardComponent},
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
 
@@ -73,6 +77,9 @@ const routes: Routes = [
     MainContentComponent,
     ContactUsComponent,
     HomeComponent,
+    DashboardComponent,
+    SidebarComponent,
+    AdminContentComponent,
   ],
   imports: [
     ToastrModule.forRoot({

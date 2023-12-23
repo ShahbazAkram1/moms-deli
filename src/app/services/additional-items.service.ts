@@ -8,8 +8,8 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root',
 })
 export class AdditionalItemsService {
-   private additionalItemUrl = 'http://localhost:8080/api/additional-items';
-   //private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
+   //private additionalItemUrl = 'http://localhost:8080/api/additional-items';
+   private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
   constructor(private httpClient: HttpClient) {}
 
   getAdditionalItemsForProduct(

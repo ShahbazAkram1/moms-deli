@@ -10,13 +10,13 @@ import { AdditionalItem } from '../common/AdditionalItem';
   providedIn: 'root',
 })
 export class ProductService {
-  // private baseUrl = 'https://api.momsdelionline.com/api/products';
-  // private categoryUrl = 'https://api.momsdelionline.com/api/product-category';
-  // private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
+  private baseUrl = 'https://api.momsdelionline.com/api/products';
+  private categoryUrl = 'https://api.momsdelionline.com/api/product-category';
+  private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
 
-  private baseUrl = 'http://localhost:8080/api/products';
-  private categoryUrl = 'http://localhost:8080/api/product-category';
-  private additionalItemUrl = 'http://localhost:8080/api/additional-items';
+  // private baseUrl = 'http://localhost:8080/api/products';
+  // private categoryUrl = 'http://localhost:8080/api/product-category';
+  // private additionalItemUrl = 'http://localhost:8080/api/additional-items';
 
   // we need a URL for additional items
 
