@@ -6,11 +6,12 @@ import { AdditionalItem } from 'src/app/common/AdditionalItem';
 import { AdditionalItemsService } from 'src/app/services/additional-items.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ProductCategory } from 'src/app/common/product-category';
-import { forkJoin, Observable } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedService } from 'src/app/common/shared.service';
 import { Route, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth-service.service';
+//import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-cart-details',
@@ -37,12 +38,12 @@ export class CartDetailsComponent implements OnInit {
   toppings = new FormControl();
 
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private productService: ProductService,
     private additionItemService: AdditionalItemsService,
     private sharedService: SharedService,
     private router: Router,
-    private httpClient: HttpClient
+    private authService:AuthService
   ) {
     // Assuming tempCartItem is available in this component
     const tempCartItem = this.cartItems;
@@ -51,24 +52,23 @@ export class CartDetailsComponent implements OnInit {
     // this.sharedService.sendTempCartItem(tempCartItem);
     this.productCategory = {} as ProductCategory;
   }
-
+  private cartSubscription!: Subscription;
   ngOnInit(): void {
+      // Subscribe to the cart items
+      // Subscribe to the total price
+   
     this.listCartDetails();
   }
+  // mo warro he codepaste kaiyw ada ??
 
   listCartDetails() {
     // get a handle to the cart items
-    this.cartItems = this.cartService.cartItems;
-
+    this.cartItems = this.cartService.getCart();
+  this.totalPrice = this.cartService.computeTotalPrice();
     this.cartItems.forEach((cartItem) => {
-      const url = cartItem.category.href;
-
-      // Subscribe to getProductCategory and assign the result to cartItem.category
-      this.productService.getProductCategory(url).subscribe(
-        (productCategory: ProductCategory) => {
-          cartItem.category = productCategory;
+        console.log(cartItem);
           this.additionItemService
-            .getAdditionalItemsForProductCategory(productCategory)
+            .getAdditionalItemsForProductCategory(cartItem.category)
             .subscribe(
               (data) => {
                 cartItem.additionalItems = data;
@@ -77,36 +77,37 @@ export class CartDetailsComponent implements OnInit {
                 console.error(error);
               }
             );
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    });
+        });
+       
+     
+   
     // this.selectedAdditionalItems = this.cartItems.map(item => item.selectedAdditionalItems).flat();
 
     // subscribe to the cart totalPrice
-    this.cartService.totalPrice.subscribe((data) => (this.totalPrice = data));
+    // this.cartService.totalPrice.subscribe((data) => (this.totalPrice = data));
 
     // subscribe to the cart totalQuantity
-    this.cartService.totalQuantity.subscribe(
-      (data) => (this.totalQuantity = data)
-    );
+    // this.cartService.totalQuantity.subscribe(
+    //   (data) => (this.totalQuantity = data)
+    // );
 
     // compute cart total price and quantity
-    this.cartService.computeCartTotals();
+    // this.cartService.computeCartTotals();
   }
+  
 
   incrementQuantity(theCartItem: CartItem) {
     this.cartService.addToCart(theCartItem);
   }
 
   decrementQuantity(theCartItem: CartItem) {
-    this.cartService.decrementQuantity(theCartItem);
+    // this.cartService.decrementQuantity(theCartItem);
   }
 
   remove(theCartItem: CartItem) {
-    this.cartService.remove(theCartItem);
+    this.cartService.removeFromCart(theCartItem.id);
+    this.cartItems = this.cartService.getCart();
+    this.totalPrice = this.cartService.computeTotalPrice();
   }
 
   addAdditionItem(item: any, tempCartItem: CartItem) {
@@ -177,20 +178,6 @@ export class CartDetailsComponent implements OnInit {
     this.storage.setItem('totalPrice', newPriceAsString);
   }
 
-  getProductCategory(url: any): Observable<ProductCategory> {
-    console.log(url);
-    if (!url.toLowerCase().startsWith("http://api.momsdelionline.com/api/")) {
-      console.log("starts");
-      if (url.toLowerCase().startsWith('http://')) {
-        // Correct the regular expression for replacing 'http://' with 'https://'
-        url = url.replace(/^http:\/\//i, 'https://');
-      }
-    }
-    // Use the injected httpClient to make the HTTP GET request
-    return this.httpClient.get<ProductCategory>(url);
-  }
-  
-
   handleSelectionChange(t: CartItem) {
     // Iterate through selected items and add them to the selection
     this.selectedAdditionItems[t.id].forEach((item) => {
@@ -208,8 +195,13 @@ export class CartDetailsComponent implements OnInit {
   }
 
   public toOrderPlace() {
+   if(this.authService.isLoggedIn()){
     const tempCartItem = this.cartItems;
     this.sharedService.sendTempCartItem(tempCartItem);
     this.router.navigate(['/checkout']);
+   }else{
+    this.sharedService.sendAnyData("Please Login First...");
+    this.router.navigate(['/auth/login']);
+   }
   }
 }

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 import { Routes, RouterModule } from '@angular/router';
@@ -42,22 +42,141 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from './components/home/home.component';
 import { ToastrModule } from 'ngx-toastr';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
-import { SidebarComponent } from './admin/components/sidebar/sidebar.component';
-import { AdminContentComponent } from './admin/admin-content/admin-content.component';
+import { AdminMainContentComponent } from './admin/admin-main-content/admin-main-content.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminNavbarComponent } from './admin/components/admin-navbar/admin-navbar.component';
+import { AdminSidebarComponent } from './admin/components/admin-sidebar/admin-sidebar.component';
+import { AdminCategoryComponent } from './admin/admin-category/admin-category.component';
+import { AdminProductComponent } from './admin/admin-product/admin-product.component';
+import { AddCategoryComponent } from './admin/admin-category/add-category/add-category.component';
+import { AddProductComponent } from './admin/admin-product/add-product/add-product.component';
+import { OrderPlacedComponent } from './admin/order-placed/order-placed.component';
+import { TrackOrderComponent } from './customer/track-order/track-order.component';
+import { ProfileComponent } from './customer/profile/profile.component';
+import { OrdersComponent } from './customer/orders/orders.component';
+import { AgChartsAngularModule } from 'ag-charts-angular';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ProductByCateogryChartComponent } from './admin/admin-dashboard/charts/product-by-cateogry-chart/product-by-cateogry-chart.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatCardModule } from '@angular/material/card';
+import { LoginComponent } from './auth/login/login.component';
+import { NgChartsModule } from 'ng2-charts';
+import { ProductSolidReviewChartComponent } from './admin/admin-dashboard/charts/product-solid-review-chart/product-solid-review-chart.component';
+import { CustomerComponent } from './admin/customer/customer.component';
+import { ReviewAndCommentsComponent } from './admin/review-and-comments/review-and-comments.component';
+import { ReviewChartsComponent } from './admin/review-and-comments/review-charts/review-charts.component';
+import { AdditionalItemsComponent } from './admin/additional-items/additional-items.component';
+import { AddAdditionalItemComponent } from './admin/additional-items/add-additional-item/add-additional-item.component';
+import { RegisterCustomerComponent } from './customer/register-customer/register-customer.component';
+import { ForgetPasswordComponent } from './auth/login/forget-password/forget-password.component';
+import { AdminGurard } from './authoriation/admin-guard.guard';
+import { CustomerAdminGuard } from './authoriation/customer-guard.guard';
+import { AuthInterceptor } from './authoriation/AuthInterceptor';
+import { EditCategoryComponent } from './admin/admin-category/edit-category/edit-category.component';
+import { EditProductComponent } from './admin/admin-product/edit-product/edit-product.component';
+import { EditAdditionalItemsComponent } from './admin/additional-items/edit-additional-items/edit-additional-items.component';
+import { CustomerDashboardComponent } from './customer/customer-dashboard/customer-dashboard.component';
+import { CustomerSidebarComponent } from './customer/customer-sidebar/customer-sidebar.component';
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
-  { path: 'products/:id', component: ProductDetailsComponent },
+  { path: 'category/:categoryId', component: ProductListComponent },
   { path: 'search/:keyword', component: ProductListComponent },
+  { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'category/:id', component: ProductListComponent },
   { path: 'category', component: ProductListComponent },
   { path: 'products', component: ProductListComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'contact-us', component: ContactUsComponent },
-  // {path: 'contact-us', component: HelpComponent },
-  { path: '', redirectTo: '/products', pathMatch: 'full' },  
-  { path: 'admin/dashboard',component:DashboardComponent},
+  {
+    path: 'admin/dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/category',
+    component: AdminCategoryComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/category/add',
+    component: AddCategoryComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/category/edit',
+    component: EditCategoryComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/product',
+    component: AdminProductComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/product/add',
+    component: AddProductComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/product/edit',
+    component: EditProductComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/orderPlaced',
+    component: OrderPlacedComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/additional-item',
+    component: AdditionalItemsComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/additional-item/add',
+    component: AddAdditionalItemComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'admin/additional-item/edit',
+    component: EditAdditionalItemsComponent,
+    canActivate: [AdminGurard],
+  },
+  {
+    path: 'customer/orders',
+    component: OrdersComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  {
+    path: 'customer/trackOrder',
+    component: TrackOrderComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  {
+    path: 'customer/profile',
+    component: ProfileComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  {
+    path: 'customer/dashboard',
+    component: CustomerDashboardComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  { path: 'customer/register', component: RegisterCustomerComponent },
+  {
+    path: 'admin/customer/list',
+    component: CustomerComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  {
+    path: 'admin/review',
+    component: ReviewAndCommentsComponent,
+    canActivate: [CustomerAdminGuard],
+  },
+  { path: 'auth/login', component: LoginComponent },
+  { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
 
@@ -77,9 +196,37 @@ const routes: Routes = [
     MainContentComponent,
     ContactUsComponent,
     HomeComponent,
-    DashboardComponent,
-    SidebarComponent,
-    AdminContentComponent,
+    AdminMainContentComponent,
+    AdminDashboardComponent,
+    AdminNavbarComponent,
+    AdminSidebarComponent,
+    AdminCategoryComponent,
+    AdminProductComponent,
+    AddCategoryComponent,
+    AddProductComponent,
+    OrderPlacedComponent,
+    TrackOrderComponent,
+    ProfileComponent,
+    OrdersComponent,
+    ProductByCateogryChartComponent,
+    LoginComponent,
+    ProductSolidReviewChartComponent,
+    CustomerComponent,
+    ReviewAndCommentsComponent,
+    ReviewChartsComponent,
+    AdditionalItemsComponent,
+    RegisterCustomerComponent,
+    ForgetPasswordComponent,
+    EditCategoryComponent,
+    EditProductComponent,
+    EditAdditionalItemsComponent,
+    CustomerDashboardComponent,
+    CustomerSidebarComponent,
+    // CustomerComponent,
+    // ReviewAndCommentsComponent,
+    // ReviewChartsComponent,
+    // AdditionalItemsCompnent,
+    // AddAdditionalItemComponent
   ],
   imports: [
     ToastrModule.forRoot({
@@ -114,9 +261,19 @@ const routes: Routes = [
     MatFormFieldModule,
     MatIconModule,
     MatIconModule,
-
+    AgChartsAngularModule,
+    NgApexchartsModule,
+    MatExpansionModule,
+    MatSidenavModule,
+    MatCardModule,
+    NgChartsModule,
   ],
-  providers: [ProductService],
+  providers: [
+    ProductService,
+    AdminGurard,
+    CustomerAdminGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

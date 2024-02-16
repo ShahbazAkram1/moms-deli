@@ -1,0 +1,167 @@
+<header  class="bg-surface-primary border-bottom pt-6">
+  <div class="container-fluid">
+    <app-admin-navbar></app-admin-navbar>
+<h2>Welcome <b> {{currentUser.firstName}} </b></h2>
+    <div class="mb-npx">
+      <div class="card-header">
+          <h5 class="mb-0">Dashboard</h5>
+        </div>
+      <!-- <ul class="nav nav-tabs mt-4 overflow-x border-0">
+        <li class="nav-item "> <a href="#" class="nav-link active">All files</a> </li>
+        <li class="nav-item"> <a href="#" class="nav-link font-regular">Charts</a> </li>
+        <li class="nav-item"> <a href="#" class="nav-link font-regular">File requests</a> </li>
+      </ul> -->
+    </div>
+  </div>
+</header> <!-- Main -->
+<main class="py-6 bg-surface-secondary">
+  <div class="container-fluid"> <!-- Card stats -->
+    <div class="row g-6 mb-6">
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card shadow border-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col"> <span class="h6 font-semibold text-muted text-sm d-block mb-2">Category</span> <span
+                  class="h3 font-bold mb-0">{{categoryLength}}</span> </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle"> <i
+                    class="bi bi-credit-card"></i> </div>
+              </div>
+            </div>
+            <!-- <div class="mt-2 mb-0 text-sm"> <span class="badge badge-pill bg-soft-success text-success me-2"> <i
+                  class="bi bi-arrow-up me-1"></i>13% </span> <span class="text-nowrap text-xs text-muted">Since
+                last month</span> 
+              </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card shadow border-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col"> <span class="h6 font-semibold text-muted text-sm d-block mb-2">Customers</span>
+                <span class="h3 font-bold mb-0">120</span> </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-primary text-white text-lg rounded-circle"> <i
+                    class="bi bi-people"></i> </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card shadow border-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col"> <span class="h6 font-semibold text-muted text-sm d-block mb-2">Addition Items</span>
+                <span class="h3 font-bold mb-0">{{additionLength}}</span> </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-info text-white text-lg rounded-circle"> <i
+                    class="bi bi-clock-history"></i> </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card shadow border-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col"> <span class="h6 font-semibold text-muted text-sm d-block mb-2">Products</span>
+                <span class="h3 font-bold mb-0">{{productLength}}</span> </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-warning text-white text-lg rounded-circle"> <i
+                    class="bi bi-minecart-loaded"></i> </div>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow border-0 mb-7">
+      <div class="card-header">
+        <h5 class="mb-0">Statistics</h5>
+      </div>
+    <div class="row">
+     
+   
+    <div class="col-md-8 card-body shadow">
+      <div id="chart">
+          <apx-chart
+            [series]="chartOptions.series!"
+            [chart]="chartOptions.chart!"
+            [xaxis]="chartOptions.xaxis!"
+            [dataLabels]="chartOptions.dataLabels!"
+            [grid]="chartOptions.grid!"
+            [stroke]="chartOptions.stroke!"
+            [title]="chartOptions.title!"
+          ></apx-chart>
+        </div>
+      </div>
+      <div class="col-md-4">
+          <app-product-by-cateogry-chart></app-product-by-cateogry-chart>
+
+      </div>
+  </div>
+  </div>
+
+
+    <div class="card shadow border-0 mb-7">
+      <div class="card-header">
+        <h5 class="mb-0">Recent Orders</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-nowrap">
+          <thead class="thead-light">
+              <tr>
+                  <th>ID</th>
+                  <th scope="col">Customer Name</th>
+                  <th scope="col">Product </th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Total Price</th>
+                
+                  <th scope="col">Status</th>
+                  <th></th>   
+                </tr>
+              </thead>
+              <tbody>
+              
+                
+                <tr>
+                  <td>2</td>
+                  <td> <img alt="..."
+                    src="../../../assets/admin/images/admin.png"
+                    class="avatar avatar-sm rounded-circle me-2"> <a class="text-heading font-semibold" href="#">
+                    Shabaz Khan
+                    </a> </td>
+                
+                    <td> <img alt="..."
+                      src="../../../assets/images/products/chips_and_snacks/pita_chips.png"
+                      class="avatar avatar-sm rounded-circle me-2"> <a class="text-heading font-semibold" href="#">     
+                        Pizza  </a> </td>
+  
+  
+                  <td> JUN 1, 2024 </td>
+                  <td> 
+                    $123 </td>
+                  <td> <span class="badge badge-lg badge-dot"> <i class="bg-danger"></i>Canceled </span> </td>
+                  <td class="text-end"> <a href="#" class="btn btn-sm btn-neutral">View</a> <button type="button"
+                      class="btn btn-sm btn-square btn-neutral text-danger-hover"> <i class="bi bi-trash"></i> </button>
+                  </td>
+                </tr>
+
+            
+          </tbody>
+        </table>
+        <app-product-solid-review-chart class="bg-primary"></app-product-solid-review-chart>
+      </div>
+      <div class="card-footer border-0 py-5"> <span class="text-muted text-sm">Showing 10 items out of 250 results
+          found</span> </div>
+    </div>
+  </div>
+
+
+</main>

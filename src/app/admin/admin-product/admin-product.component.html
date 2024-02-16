@@ -1,0 +1,98 @@
+
+<div class="card shadow border-0 mb-7">
+ 
+  <div class="card-header">
+    <h5 class="mb-0">Products
+  </h5>
+    <div class="container">
+      <a 
+      href="admin/product/add"
+      class="btn float-end d-inline-flex btn-sm btn-primary"> <span class=" pe-2"> <i class="bi bi-plus"></i>
+      </span> <span>Create Product
+        
+      </span> </a>
+    </div>
+  </div>
+  
+  <div class="table-responsive">
+    <div class="mat-elevation-z8">
+      <div class="container">
+
+        <input type="text" class="form-control form-input" (input)="applyFilter($event)" placeholder="Search Product....">
+
+    
+    </div>
+      <table mat-table [dataSource]="dataSource" matSort>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="id" class="thead-light">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let product"> {{ product.id }} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let product">
+            <img alt="..."
+            src="{{product.imageUrl}}"
+            class="avatar avatar-sm rounded-circle me-2">
+           
+            
+            {{ product.name }} </td>
+        </ng-container>
+    
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+          <td mat-cell *matCellDef="let product"> {{ product.description }} </td>
+        </ng-container>
+    
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+          <td mat-cell *matCellDef="let product"> {{ product.price | currency:'USD':'symbol':'1.2-2' }} </td>
+        </ng-container>
+    
+        <!-- Active Column -->
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+          <td mat-cell *matCellDef="let product"> {{ product.active ? 'Yes' : 'No' }} </td>
+        </ng-container>
+    
+        <!-- Units In Stock Column -->
+        <ng-container matColumnDef="unitsInStock">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Units In Stock </th>
+          <td mat-cell *matCellDef="let product"> {{ product.unitsInStock }} </td>
+        </ng-container>
+    
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let product">
+            <!-- Add your action buttons/icons here -->
+            <button mat-icon-button color="primary" (click)="editProduct(product)" >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="accent">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteProduct(product.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page"
+                     [pageSize]="5" [length]="dataSource.data.length">
+      </mat-paginator>
+    </div>
+    
+  </div>
+  <div class="card-footer border-0 py-5"> 
+     </div>
+</div>

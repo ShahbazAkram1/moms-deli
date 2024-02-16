@@ -1,6 +1,6 @@
 // shared.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,5 +11,11 @@ export class SharedService {
 
   sendTempCartItem(tempCartItem: any) {
     this.tempCartItemSource.next(tempCartItem);
+  }
+  sendAnyData(data:any){
+    this.tempCartItemSource.next(data);
+  }
+  getData(): Observable<any> {
+    return this.tempCartItemSource.asObservable();
   }
 }

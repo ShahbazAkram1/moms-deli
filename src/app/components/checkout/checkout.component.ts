@@ -17,6 +17,7 @@ import { CartItem } from 'src/app/common/cart-item';
 import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { MatStepper } from '@angular/material/stepper';
+import { AuthService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-checkout',
@@ -29,7 +30,7 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
 
   shippingPrice: number = 5.00;
   totalPrice: number = 0;
-  totalQuantity: number = 0;
+  totalQuantity: number = this.cartService.getCart().length;
   
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
@@ -41,19 +42,20 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
   billingAddressStates: State[] = [];
 
   stripe = Stripe(environment.stripePublishableKey);
-
   paymentInfo: PaymentInfo = new PaymentInfo();
   cardElement: any;
   displayError: any = "";
   receivedTempCartItem:any;
   storage: Storage = sessionStorage;
   selectedTab="customer"
+  phoneNumber: any;
   constructor(private formBuilder: FormBuilder,
               private MomsDeliFormService: MomsDeliFormService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
               private router: Router,
               private sharedService: SharedService,
+              private authService:AuthService
               ) { }
   ngAfterViewInit(): void {
     this.setupStripePaymentForm();
@@ -64,6 +66,11 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
               }
           
   ngOnInit(): void {
+    if(!this.authService.isLoggedIn()){
+      this.sharedService.sendAnyData("Please Login First...");
+      this.router.navigate(['/auth/login']);
+     }
+
     this.creditCardMonths = [];
     this.creditCardYears = [];
     this.countries = [];
@@ -93,8 +100,7 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
 
         email: new FormControl('',
                               [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-        phoneNumber: new FormControl('', 
-                              [Validators.required, Validators.pattern('^\\+?1?\\d{10}$')])
+                              phoneNumber: new FormControl('', [Validators.required])
       }),
       shippingAddress: this.formBuilder.group({
         street: new FormControl('', [Validators.required, Validators.minLength(2),
@@ -181,11 +187,11 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
           console.log(event);
       if (event.complete) {
         console.log(event.complete);
-        this.displayError.textContent = "";
+        // this.displayError.textContent = "";
       } else if (event.error) {
         console.log(event.error);
         // show validation error to customer
-        this.displayError.textContent = event.error.message;
+        // this.displayError.textContent = event.error.message;
       }
 
     });
@@ -196,11 +202,11 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
   reviewCartDetails() {
 
     // subscribe to cartService.totalQuantity
-    this.cartService.totalQuantity.subscribe(
-      totalQuantity => this.totalQuantity = totalQuantity
-    );
+    // this.cartService.totalQuantity.subscribe(
+    //   totalQuantity => this.totalQuantity = totalQuantity
+    // );
      
-    this.totalPrice  = parseFloat(this.storage.getItem('totalPrice') || "0");
+    this.totalPrice  = this.cartService.computeTotalPrice()+ 5;
 
     // subscribe to cartService.totalPrice
     // this.cartService.totalPrice.subscribe(
@@ -225,7 +231,6 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
   get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
   get email() { return this.checkoutFormGroup.get('customer.email'); }
-  get phoneNumber() { return this.checkoutFormGroup.get('customer.phoneNumber'); }
 
   get shippingAddressStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
   get shippingAddressCity() { return this.checkoutFormGroup.get('shippingAddress.city'); }
@@ -275,8 +280,6 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
   isPurchasing = false;
 
   onSubmit() {
-    console.log('Phone number:', this.phoneNumber?.value);  // Log the phone number
-
     this.isPurchasing = true;
 
     if (this.checkoutFormGroup.invalid) {
@@ -285,7 +288,7 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
       this.checkoutFormGroup.markAllAsTouched();
       Swal.fire({
         icon:'error',
-        text:'All Fields are required Fill All The Fields!'
+        text:'All Fields are required Fill ALl The Fields!'
         
       });
         return;
@@ -297,16 +300,16 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
     order.totalQuantity = this.totalQuantity;
 
     // get cart items
-    const cartItems = this.cartService.cartItems;
+    const cartItems = this.cartService.getCart();
 
     // create orderItems from cartItems
     // - long way
-    this.sharedService.tempCartItem$.subscribe((tempCartItem) => {
-      this.receivedTempCartItem = tempCartItem;
-    });
+      this.receivedTempCartItem =  this.cartService.getCart();
+  
 
     // - short way of doing the same thingy
     let orderItems:OrderItem[] = (this.receivedTempCartItem as CartItem[]).map(t => new OrderItem(t));
+    console.log(orderItems);
 
     // set up purchase
     let purchase = new Purchase();
@@ -364,13 +367,14 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
           .then((result: { error: { message: any; }; }) => {
             if (result.error) {
               // inform the customer there was an error
+              
+              this.isPurchasing = false;;
+
               Swal.fire({
                 icon:'error',
                 text:`There was an error: ${result.error.message}`
 
               })
-              this.isPurchasing = false;;
-
             } else {
               // call REST API via the CheckoutService
               console.log("ELse Calling");
@@ -384,6 +388,7 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
                     imageWidth: 400,
                     imageHeight: 200,
                   });
+                  this.cartService.clearCart();;
                   this.isPurchasing = false;
 
 
@@ -391,7 +396,14 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
                   // this.resetCart();
                 },
                 error: err => {
-                  alert(`There was an error: ${err.message}`);
+                  this.isPurchasing = false;;
+
+                  Swal.fire({
+                    icon:'error',
+                    text:`There was an error: ${result.error.message}`
+    
+                  })
+                
                 }
               })
             }
@@ -409,9 +421,7 @@ export class CheckoutComponent implements OnInit,AfterViewInit {
 
   resetCart() {
     // reset cart data
-    this.cartService.cartItems = [];
-    this.cartService.totalPrice.next(0);
-    this.cartService.totalQuantity.next(0);
+    this.cartService.clearCart();
     
     // reset the form
     this.checkoutFormGroup.reset();

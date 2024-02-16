@@ -32,7 +32,7 @@ export class CartItem {
     this.additionalItems = additionalItems;
     this.selectedToppings = selectedToppings;
     this.description = product.description;
-    this.category = category;
+    this.category = product.category;
     //this.selectedDrink = 'none';
   }
 }

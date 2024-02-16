@@ -10,13 +10,17 @@
  
 </head>
 <body>
-  <!-- WHERE IS APP-routing -->
-<app-navbar></app-navbar>
-<h1>{{isAdminPanel}}</h1>
 
+  <div *ngIf="isAdminPanel()"> 
+    <app-admin-main-content></app-admin-main-content>
+    </div>
+    <div *ngIf="!isAdminPanel()">
+    
+<app-navbar></app-navbar>
 <app-main-content></app-main-content>
 <div class="p-5"></div>
 <app-footer></app-footer>
+</div>
 
 <!-- Include Angular Material scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

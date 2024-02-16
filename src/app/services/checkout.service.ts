@@ -9,11 +9,11 @@ import { PaymentInfo } from '../common/payment-info';
 })
 export class CheckoutService {
   // AWS EC2 URLs
-  private purchaseUrl = 'https://api.momsdelionline.com/api/checkout/purchase';
-  private paymentIntentUrl = 'https://api.momsdelionline.com/api/checkout/payment-intent';
+  // private purchaseUrl = 'https://api.momsdelionline.com/api/checkout/purchase';
+  // private paymentIntentUrl = 'https://api.momsdelionline.com/api/checkout/payment-intent';
 
-  // private purchaseUrl = 'http://localhost:8080/api/checkout/purchase';
-  // private paymentIntentUrl = 'http://localhost:8080/api/checkout/payment-intent';
+  private purchaseUrl = 'http://localhost:8080/api/checkout/purchase';
+  private paymentIntentUrl = 'http://localhost:8080/api/checkout/payment-intent';
 
   // old AWS EC2 URLs
   // private purchaseUrl = 'http://momsdelionline.com:8080/api/checkout/purchase';

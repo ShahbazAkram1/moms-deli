@@ -28,9 +28,7 @@ export class CartStatusComponent implements OnInit {
     this.totalPrice = parseFloat(price || '0');
 
     // subscribe to the cart totalQuantity
-    this.cartService.totalQuantity.subscribe(
-      (data) => (this.totalQuantity = data)
-    );
+   
 
   }
 }

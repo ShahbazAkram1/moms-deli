@@ -1,6 +1,4 @@
-<br />
-<br /><br />
-<br />
+
 <div class="container">
   <div class="row" *ngIf="cartItems.length > 0">
     <div class="col-md-8">
@@ -36,7 +34,7 @@
                             <button
                               mat-mini-fab
                               color="primary"
-                              (click)="decrementQuantity(tempCartItem)"
+                              (click)="remove(tempCartItem)"
                             >
                               <mat-icon>remove</mat-icon>
                             </button>
@@ -105,14 +103,14 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="col-md-12">
+                  <!-- <div class="col-md-12">
                     <label>Specific Instruction</label>
                     <textarea
                       [(ngModel)]="tempCartItem.specificInstruction"
                       name="specificInstruction"
                       class="form-control"
                     ></textarea>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -127,7 +125,7 @@
 
     <div class="col-md-4">
       <div class="card summary-container">
-        <p style="font-weight: bold">Total Quantity: {{ totalQuantity }}</p>
+        <p style="font-weight: bold">Total Quantity: {{ cartItems.length }}</p>
         <p>Total Price: {{ totalPrice | currency : "USD" }}</p>
         <p>Selected Additional Items:</p>
 
@@ -149,7 +147,28 @@
     </div>
   </div>
   <!-- if cart is empty then display a message -->
-  <div *ngIf="cartItems.length === 0" class="alert alert-warning" role="alert">
-    Your shopping cart is empty.
-  </div>
-</div>
+
+  <div *ngIf="cartItems.length === 0">
+
+       <div class="col-md-12">
+           <div class="card">
+       
+         <div class="card-body">
+             <div class="col-sm-12 empty-cart-cls text-center">
+               <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+               <h3><strong>Your Cart is Empty</strong></h3>
+               <h4>Add something to make me happy :)</h4>
+               <a href="#" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+               
+             
+             </div>
+         </div>
+     </div>
+         
+       
+       </div>
+      
+      </div>
+     
+     </div>
+

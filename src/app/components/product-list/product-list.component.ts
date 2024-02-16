@@ -16,6 +16,7 @@ import {
   GetResponseAdditionalItemsCategory,
 } from 'src/app/services/additional-items.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Page } from 'src/app/common/Page';
 
 @Component({
   selector: 'app-product-list',
@@ -24,7 +25,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 })
 export class ProductListComponent implements OnInit {
   isCategory1Route: boolean = false;
-
   products: Product[] = [];
   category: ProductCategory[] = [];
   showAdditionalItems: boolean = false;
@@ -44,6 +44,9 @@ export class ProductListComponent implements OnInit {
   theTotalElements: number = 0;
 
   previousKeyword: string | null = null;
+  productsPage: Page<Product>;
+  pageSize = 10;
+  isLoading: boolean = true;
 
   constructor(
     private productService: ProductService,
@@ -52,128 +55,75 @@ export class ProductListComponent implements OnInit {
     private additionalItemsService: AdditionalItemsService,
     private dialog: MatDialog
   ) {
+    this.productsPage = {} as Page<Product>;
     this.route.url.subscribe((segments) => {
       const lastSegment = segments[segments.length - 1].path;
       this.isCategory1Route = lastSegment.endsWith('/category/1');
     });
   }
-
   ngOnInit() {
-    this.route.paramMap.subscribe(() => {
-      this.listProducts();
-      const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
-      this.loadAdditionalItems(theProductId);
+    this.route.params.subscribe(params => {
+      const categoryId = params['categoryId'];
+
+      if (categoryId) {
+        this.isLoading = true;
+        this.getProductsByCategory(categoryId,0);
+      }
+    else{
+      this.isLoading = true;
+      this.getPaginatedProducts(0);
+    }
     });
   }
 
-  listProducts() {
-    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+  getPaginatedProducts(page: number): void {
+    this.productService.getPaginatedProducts(page, this.pageSize)
+      .subscribe(data => {
+        this.productsPage = data;
+        this.isLoading = false;
+      }, error => {
+        console.error('Error fetching paginated products.', error);
+      });
+  } 
+  
+  getProductsByCategory(categoryId:number,page: number): void {
+   
+    this.productService.getProductsByCategory(categoryId,page, this.pageSize)
+      .subscribe(data => {
+        this.productsPage = data;
+        this.isLoading = false;
 
-    if (this.searchMode) {
-      this.handleSearchProducts();
-    } else {
-      this.handleListProducts();
-    }
+      }, error => {
+        console.error('Error fetching paginated products.', error);
+      });
   }
 
-  handleSearchProducts() {
-    const theKeyword: string | null =
-      this.route.snapshot.paramMap.get('keyword')!;
-
-    // if we have a different keyword than previous
-    // then set thePageNumber to 1
-
-    if (this.previousKeyword != theKeyword) {
-      this.thePageNumber = 1;
-    }
-
-    this.previousKeyword = theKeyword;
-
-    console.log(`keyword=${theKeyword}, thePageNumber=${this.thePageNumber}`);
-
-    // now search for the products using keyword
-    this.productService
-      .searchProductsPaginate(
-        this.thePageNumber - 1,
-        this.thePageSize,
-        theKeyword
-      )
-      .subscribe(this.processResult());
+  onPageChanged(event:any): void {
+    this.isLoading = true;
+    this.pageSize=event.pageSize;
+    this.getPaginatedProducts(event.pageIndex);
   }
+  loading: boolean = true;
+ 
 
-  handleListProducts() {
-    // check if "id" parameter is available
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-    console.log(`Does it have category ID? ${hasCategoryId}`);
+  
 
-    if (hasCategoryId) {
-      // get the "id" param string. convert string to a number using the "+" symbol
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
-    } else {
-      // not category id available ... default to category id 1
-      
-    }
-
-    //
-    // Check if we have a different category than previous
-    // Note: Angular will reuse a component if it is currently being viewed
-    //
-
-    // if we have a different category id than previous
-    // then set thePageNumber back to 1
-    if (this.previousCategoryId != this.currentCategoryId) {
-      this.thePageNumber = 1;
-    }
-
-    this.previousCategoryId = this.currentCategoryId;
-
-    console.log(
-      `currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`
-    );
-
-    // now get the products for the given category id
-    this.productService
-      .getProductListPaginate(
-        this.thePageNumber - 1,
-        this.thePageSize,
-        this.currentCategoryId
-      )
-      .subscribe(this.processResult());
-  }
-
-  processResult() {
-    return (data: {
-      _embedded: { products: Product[] };
-      page: { number: number; size: number; totalElements: number };
-    }) => {
-      this.products = data._embedded.products;
-      this.thePageNumber = data.page.number + 1;
-      this.thePageSize = data.page.size;
-      this.theTotalElements = data.page.totalElements;
-    };
-  }
-
-  handlePageChange(event: PageEvent): void {
-    this.thePageNumber = event.pageIndex + 1;
-    this.thePageSize = event.pageSize;
-    this.listProducts();
-  }
-
+  itemCart! :CartItem;;
   addToCart(theProduct: Product) {
-    console.log(theProduct._links);
-    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.price}`);
-
+    console.log(theProduct);
+    this.itemCart = {} as CartItem;
+    this.itemCart.id=theProduct.id;
+    this.itemCart.price=theProduct.price;
+    this.itemCart.imageUrl=theProduct.imageUrl;
+    this.itemCart.quantity=1;
+    this.itemCart.category  = theProduct.category;
+    this.itemCart.name = theProduct.name;
     // // TODO ... do the real work
     // const theCartItem = new CartItem(theProduct);
 
     // Create a new CartItem with an empty array for selectedToppings
-    const theCartItem = new CartItem(
-      theProduct,
-      [],
-      this.selectedAdditionalItems,
-      theProduct._links.category
-    );
-    this.cartService.addToCart(theCartItem);
+   
+    this.cartService.addToCart(this.itemCart);
   }
 
   loadAdditionalItems(productId: number) {

@@ -5,18 +5,24 @@ import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ProductCategory } from '../common/product-category';
 import { AdditionalItem } from '../common/AdditionalItem';
+import { Page } from '../common/Page';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'https://api.momsdelionline.com/api/products';
-  private categoryUrl = 'https://api.momsdelionline.com/api/product-category';
-  private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
 
-  // private baseUrl = 'http://localhost:8080/api/products';
-  // private categoryUrl = 'http://localhost:8080/api/product-category';
-  // private additionalItemUrl = 'http://localhost:8080/api/additional-items';
+  // private baseUrl = 'https://api.momsdelionline.com/api/products';
+  //  private categoryUrl = 'https://api.momsdelionline.com/api/categories';
+  //  private additionalItemUrl = "https://api.momsdelionline.com/api/additional-items";
+
+
+   // private categoryUrl = 'https://api.momsdelionline.com/api/product-category';
+   
+   
+  private baseUrl = 'http://localhost:8080/api/products';
+ private categoryUrl = 'http://localhost:8080/api/categories';
+ private additionalItemUrl = 'http://localhost:8080/api/additional-items';
 
   // we need a URL for additional items
 
@@ -25,6 +31,27 @@ export class ProductService {
   getAllAdditionalItems(): Observable<AdditionalItem[]> {
     return this.httpClient.get<AdditionalItem[]>(this.additionalItemUrl);
   }
+
+  deleteProduct(id:any):Observable<any>{
+    return this.httpClient.delete(`${this.baseUrl}/${id}`)
+  }
+  getPaginatedProducts(page: number, size: number): Observable<Page<Product>> {
+    const url = `${this.baseUrl}/?page=${page}&size=${size}`;
+    return this.httpClient.get<Page<Product>>(url);
+  }
+
+  getProductsByCategory(categoryId:number,page: number, size: number): Observable<Page<Product>> {
+    const url = `${this.baseUrl}/category?categoryId=${categoryId}&page=${page}&size=${size}`;
+    return this.httpClient.get<Page<Product>>(url);
+  }
+  
+  updateProduct(product:Product): Observable<Product> {
+    return this.httpClient.put<Product>(`${this.baseUrl}/`,product);
+  }
+  addProduct(product:Product): Observable<Product> {
+    return this.httpClient.post<Product>(`${this.baseUrl}`,product);
+  }
+  
 
   getProduct(theProductId: number): Observable<Product> {
     const productUrl = `${this.baseUrl}/${theProductId}`;
@@ -44,12 +71,12 @@ export class ProductService {
 
   getProductList(theCategoryId: number): Observable<Product[]> {
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
-    return this.getProducts(searchUrl);
+    return this.getProducts();
   }
 
   searchProducts(theKeyword: string): Observable<Product[]> {
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
-    return this.getProducts(searchUrl);
+    return this.getProducts();
   }
 
   searchProductsPaginate(
@@ -63,16 +90,16 @@ export class ProductService {
     return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
-  private getProducts(searchUrl: string): Observable<Product[]> {
+
+
+  public getProducts(): Observable<Product[]> {
     return this.httpClient
-      .get<GetResponseProducts>(searchUrl)
+      .get<GetResponseProducts>(this.baseUrl)
       .pipe(map((response) => response._embedded.products));
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
-    return this.httpClient
-      .get<GetResponseProductCategory>(this.categoryUrl)
-      .pipe(map((response) => response._embedded.productCategory));
+    return this.httpClient.get<ProductCategory[]>(this.categoryUrl);
   }
 
   getProductCategory(url: any): Observable<ProductCategory> {

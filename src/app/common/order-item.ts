@@ -5,13 +5,13 @@ export class OrderItem {
     price: number;
     quantity: number;
     productId: string;
-    productName: string;
+    name: string;
 
     constructor(cartItem: CartItem) {
         this.imageUrl = cartItem.imageUrl;
         this.quantity = cartItem.quantity;
         this.price = cartItem.price;
         this.productId = cartItem.id;
-        this.productName=cartItem.name;
+        this.name=cartItem.name;
     }
 }

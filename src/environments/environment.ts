@@ -5,7 +5,12 @@
 export const environment = {
   production: false,
   //stripePublishableKey: 'pk_live_51KB4AqHzyheHHaqUoqrzwi45kotoqE7VjW7mK4DK9vgYv4mJuRFuC4jqaj0O7hcQWJq7IZqwQ0tDrFPlS4vGTr0B00ge6YWXUI',
-  stripePublishableKey: "pk_test_51KB4AqHzyheHHaqUxDultJvUHaZMnbUS1s7KBJM176xaU0Wyk0HLZeLJnBAPRWw8mpZSX7GsagJAgf1sxP4CdcE500cZ37DCeY"
+  // stripePublishableKey: "pk_test_51KB4AqHzyheHHaqUxDultJvUHaZMnbUS1s7KBJM176xaU0Wyk0HLZeLJnBAPRWw8mpZSX7GsagJAgf1sxP4CdcE500cZ37DCeY"
+  //stripePublishableKey:  "pk_test_51KB4AqHzyheHHaqUCmUGRguy05EmUGUaZrAI0jnecMhMcGUzwn77ICZF1Sfoowqj0iexo3P9gYoqZdCsC0ZsFL2100PfNcJGAh"   
+  stripePublishableKey:  "pk_live_51OSpGoHzZ7Kf7uBxaI7L8Bx2JRmgf5WGp2MoqPhVq9rwy7NoIfg5vK1RHWZlePN7dnP7WnkjNLamxaaLXsYYWaJs00q5u03okG"   
+ 
+  ,
+BASE_URL:"http://localhost:8080/api/"
 };
 
 /*

@@ -1,55 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Overlay -->
+<div class="overlay" [@slideInOut]="sidebarService.isOpen$ | async"></div>
 
-</head>
-<body>
-  <header class="bg-dark">
-    <a href="/">
-      <img src="assets/images/moms-deli-logo.gif" alt="Logo" width="150" />
-    
+<!-- Main Navbar -->
+<nav
+  class="navbar navbar-expand-md navbar-light bg-dark main-menu"
+  style="box-shadow: none"
+>
+  <div class="container">
+    <!-- Mobile Sidebar Toggle Button -->
+    <button
+      type="button"
+      id="sidebarCollapse"
+      class="btn btn-link d-block d-md-none"
+      (click)="toggleSidebar()"
+    >
+      <i class="bx bx-menu icon-single">=</i>
+    </button>
 
+    <!-- Brand Logo -->
+    <a class="navbar-brand" href="#">
+      <img
+        src="../../../assets/images/moms-deli-logo.gif"
+        style="width: 15vh"
+      />
     </a>
 
+    <!-- Cart Icon (visible on mobile) -->
+    <ul class="navbar-nav ml-auto d-block d-md-none">
+      <li class="nav-item">
+        Cart
+        <a [routerLink]="'/cart-details'" class="btn btn-link">
+          <i class="fas fa-trash"></i>
+          <!-- Assuming 'fa-delete' is a typo and you meant 'fa-trash' for the trash icon -->
+          <span class="badge badge-danger">
+            Carts {{ cartService.getCart().length }}
+          </span>
+        </a>
+      </li>
+      <source />
+    </ul>
 
-    
-    <div class="nav-icon" (click)="toggleNav()">
-      <i class="fa fa-bars"></i>
-      
-    </div>
-    <div class="mobile-cart"> 
-    <div class="float-end"> 
-      <app-cart-status></app-cart-status>
-    </div>
-    </div>
-    <nav>
-      <ul>
-        <li class="cart-link">
-          <a class="nav-link" routerLink="/cart-details">
-            <app-cart-status></app-cart-status>
+    <!-- Main Navbar Content -->
+    <div class="collapse navbar-collapse">
+      <form class="form-inline my-2 my-lg-0 mx-auto">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search for products..."
+          aria-label="Search"
+        />
+      </form>
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a [routerLink]="'/cart-details'" class="btn btn-link">
+            <mat-icon>shopping_cart</mat-icon>
+
+            <span class="badge">
+              {{ cartService.getCart().length }}
+            </span>
+          </a>
+        </li>
+
+        <li class="nav-item ml-md-3" *ngIf="!isLoggedIn()">
+          <a
+            class="btn btn-primary"
+            [routerLink]="['/auth/login']"
+            routerLinkActive="router-link-active"
+          >
+            <i class="bx bxs-user-circle mr-1"></i> Log In / Register
+          </a>
+        </li>
+
+        <li class="nav-item ml-md-3" *ngIf="isLoggedIn()">
+          <a
+            class="btn btn-primary"
+            [routerLink]="['/customer/dashboard']"
+            routerLinkActive="router-link-active"
+          >
+            <!-- <i class="bx bxs-user-circle mr-1"></i> {{ currentUser.firstName }} -->
+            <i class="bx bxs-user-circle mr-1"></i> {{ currentUser?.firstName }}
+
+          </a>
+        </li>
+        <li class="nav-item ml-md-3" *ngIf="isLoggedIn()">
+          <a
+            class="btn btn-primary"
+            (click)="logoutUser()"
+            routerLinkActive="router-link-active"
+          >
+            <i class="bx bxs-user-circle mr-1"></i> Logout
           </a>
         </li>
       </ul>
-    </nav>
-
-  </header>
-
-
-<nav [ngClass]="{'show': isSidebarShown}" class="bg-dark">
-  <ul>
-    <li *ngFor="let tempProductCategory of productCategories">
-      <a  (click)="byCategory(tempProductCategory.id)" class="active"> {{tempProductCategory.categoryName}}</a></li>
-  </ul>
+    </div>
+  </div>
 </nav>
 
-<!-- <div class="overlay" [ngClass]="{'show': isSidebarShown}" (click)="toggleNav()"></div> -->
+<!-- Sub-menu Navbar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light sub-menu">
+  <div class="container">
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/products'"
+            >Home <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li
+          class="nav-item"
+          *ngFor="let category of productCategories; trackBy: trackByFn"
+          routerLinkActive="active"
+        >
+          <a class="nav-link" [routerLink]="['/category', category.id]">{{
+            category.name
+          }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<!-- ... rest of your HTML code ... -->
+<div
+  [@slideInOut]="sidebarService.isOpen$ | async"
+  class="search-bar d-block d-md-none"
+>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form class="form-inline mb-3 mx-auto">
+          <input
+            class="form-control"
+            type="search"
+            placeholder="Search for products..."
+            aria-label="Search"
+          />
+          <button class="btn btn-success" type="submit">
+            <i class="bx bx-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Sidebar (visible on mobile) -->
+<nav
+  id="sidebar"
+  [style.visibility]="isSidebarOpen ? 'visible' : 'hidden'"
+  class="bg-dark"
+  [@slideInOut]="sidebarService.isOpen$ | async"
+>
+  <!-- Sidebar Header -->
+  <div class="">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-10 pl-0">
+          <a class="btn btn-primary" href="#"
+            ><i class="bx bxs-user-circle mr-1"></i> Log In</a
+          >
+        </div>
 
-</body>
-</html>
+        <div class="col-2 text-left">
+          <!-- Sidebar Collapse Button -->
+          <button
+            type="button"
+            id="sidebarCollapseX"
+            class="btn btn-link"
+            (click)="toggleSidebar()"
+          >
+            <i class="bx bx-x icon-single">X</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Content -->
+  <ul
+    class="list-unstyled components links"
+    style="display: inline-block; width: 100%; color: white"
+  >
+    <!-- Home Link -->
+    <li class="active" style="width: 100%">
+      <a href="#"><i class="bx bx-home mr-3"></i> Home</a>
+    </li>
+    <!-- Products Link -->
+    <li>
+      <a href="#"><i class="bx bx-carousel mr-3"></i> Products</a>
+    </li>
+    <!-- Orders Link -->
+    <li>
+      <a href="#"><i class="bx bx-book-open mr-3"></i> Orders</a>
+    </li>
+    <!-- Logout Link -->
+    <li>
+      <a href="#"><i class="bx bx-crown mr-3"></i> Logout</a>
+    </li>
+  </ul>
+
+  <!-- Sidebar Categories -->
+  <h6 class="text-uppercase mb-1">Categories</h6>
+  <ul class="list-unstyled components mb-3">
+    <!-- Product Categories -->
+    <li *ngFor="let category of productCategories">
+      <a href="#"> {{ category.categoryName }} </a>
+    </li>
+  </ul>
+</nav>
