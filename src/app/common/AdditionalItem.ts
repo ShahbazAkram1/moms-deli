@@ -1,3 +1,5 @@
+import { ProductCategory } from "./product-category";
+
 export class AdditionalItem {
   id!: number;
   name!: string;
@@ -5,7 +7,7 @@ export class AdditionalItem {
   selected: boolean; // Use 'selected' instead of 'isSelected'
   // isSelected!: boolean;
   imageURL!:string;
-
+  category!:ProductCategory;
   constructor(id: number, name: string, price: number,imageURL:string) {
     this.id = id;
     this.name = name;

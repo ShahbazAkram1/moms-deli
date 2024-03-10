@@ -1,4 +1,4 @@
-// export const environment = {
-//   production: true,
-//   stripePublishableKey: 'pk_live_51KB4AqHzyheHHaqUoqrzwi45kotoqE7VjW7mK4DK9vgYv4mJuRFuC4jqaj0O7hcQWJq7IZqwQ0tDrFPlS4vGTr0B00ge6YWXUI',
-// };
+export const environment = {
+  production: true,
+  stripePublishableKey: 'pk_live_51OSpGoHzZ7Kf7uBxaI7L8Bx2JRmgf5WGp2MoqPhVq9rwy7NoIfg5vK1RHWZlePN7dnP7WnkjNLamxaaLXsYYWaJs00q5uO3okG',
+};

@@ -1,63 +1,62 @@
-<div class="main-content">
-    <div class="section-content section-content-p30">
-        <div class="container-fluid">
+<div class="container-fluid">  
+   
+  <!-- Search input field -->
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <input
+        matInput
+        #myInput
+        placeholder="Search for products"
+        class="form-control float-end"
+        (keyup.enter)="searchProducts(myInput.value)"
+      />
+    </div>
+  </div>
+
+    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 
 
-            <div class="row">
-                <div *ngFor="let tempProduct of products" class="col-md-3">
-                    <div class="product-box">
-                        <a routerLink="/products/{{ tempProduct.id }}">
-                            <img [src]="tempProduct.imageUrl" class="img-responsive">
-                        </a>
-                        <a class="product_name" routerLink="/products/{{ tempProduct.id }}">
-                            <h1>{{ tempProduct.name }}</h1>
-                        </a>
-                        <div class="price">{{ tempProduct.price | currency:'USD' }}</div>
-                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
-
-                        <!-- <div class="price">{{ tempProduct.price | currency:'USD' }}</div> -->
-                        <!-- <button (click)="openAdditionalItemsModal()">Toppings / Additional Items</button> -->
-
-                        <div *ngIf="tempProduct.showAdditionalItems">
-                            <h4>Additional Items</h4>
-                            <div *ngFor="let additionalItem of selectedAdditionalItems">
-                              <label>
-                                <input type="checkbox" [(ngModel)]="additionalItem.selected" [value]="additionalItem">
-                                {{ additionalItem.name }} - {{ additionalItem.price | currency:'USD' }}
-                              </label>
+<div class="row" *ngIf="!isLoading" >
+        <div class="col-md-12">
+            <h2>Products For You</h2>
+            <main>
+                <div class="container-fluid bg-light">
+                    <div class="row">
+                    
+                        <div class="product-card col-md-4 m-1" *ngFor="let product of productsPage.content">
+                            <div class="product-img-container bg-light p-0 m-0" [routerLink]="['/products', product.id]">
+                              <div class="product-img" style="background-image: url({{product.imageUrl}});"></div>
                             </div>
-                        </div>
+                            <div class="product-info">
+                              <h6 class="product-title">{{product.name}}</h6>
+                              <p class="product-"> {{product.description.substring(0,40)}}... </p>
+                              <div class="icon-container">
+                                <p class="product-price float-start text-danger">{{product.price | currency}}</p>
+                                <div class="float-end"> 
+                                <!-- <i class="fas fa-heart "></i> -->
+                                <!-- <i class="fas fa-shopping-cart  cart-icon" ></i> -->
+                             </div>
+                          <button type="button" (click)="addToCart(product)" id="animatebutton" class="btn btn-warning btn-icon-text animatebutton">
+                             <i class="fa fa-cart btn-icon-cart"></i> 
+                            Add to Cart </button> </div>
+                               
+                            </div>
+                          </div>
                           
+
+                        <!-- Repeat the above card structure for each product -->
+
                     </div>
                 </div>
-                <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
-                    No products found.
-                </div>
-            </div>
-
-            <!-- begin footer -->
-            <div class="footer-pagination">
-                <div class="row">
-                    <div class="col-md-6"></div>
-
-                    <div class="col-md-6">
-                        <div class="row">
-                            <!-- Paginator for the products -->
-                            <div class="col-md-12" style="text-align: center;">
-                                <mat-paginator [length]="theTotalElements"
-                                            [pageSize]="thePageSize"
-                                            [pageIndex]="thePageNumber - 1"
-                                            [pageSizeOptions]="[2, 5, 10, 20, 50]"
-                                            (page)="handlePageChange($event)">
-                                </mat-paginator>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!-- end footer -->
-
+                <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" [length]="productsPage.totalPages * pageSize"
+               (page)="onPageChanged($event)">
+                </mat-paginator>
+            </main>
         </div>
     </div>
 </div>

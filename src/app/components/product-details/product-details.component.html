@@ -1,22 +1,31 @@
-<!-- product-details.component.html -->
+<br>
+<div class="container mt-5">
+  <div class="card">
+    <div class="row">
+      <!-- Left side: Image -->
+      <img 
+           style="height: 100vh;"
+            src="{{ product.imageUrl }}"
+            class="card-img detail-img img-fluid"
+            alt="{{ product.name }}"
+          />
 
-<div class="main-content">
-    <div class="section-content section-content-p30">
-      <div class="container-fluid">
-  
-        <img src="{{ product.imageUrl }}" class="detail-img">
-  
-        <h3>{{ product.name }}</h3>
-        <div class="price">{{ product.price | currency:'USD' }}</div>
-        <button (click)="addToCart()" class="btn btn-primary btn-sm">Add to cart</button>
-
-        <!-- <button (click)="openAdditionalItemsModal()">Toppings / Additional Items</button> -->
-
-        <hr>
-        <h4>Description</h4>
-        <p>{{ product.description }}</p>
-  
-        <a routerLink="/products" class="mt-5">Back to Product List</a>
+      <!-- Right side: Product details -->
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title">{{ product.name }}</h3>
+          <div class="price h5">{{ product.price | currency : "USD" }}</div>
+          <p class="card-text">{{ product.description }}</p>
+          <button (click)="addToCart()" class="btn btn-primary">
+            Add to Cart
+          </button>
+        </div>
+        <div class="card-footer text-muted">
+          <a routerLink="/products" class="btn btn-secondary">
+            Back to Product List
+          </a>
+        </div>
       </div>
     </div>
   </div>
+</div>

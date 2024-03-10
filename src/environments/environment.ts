@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
-  stripePublishableKey: "pk_test_51KB4AqHzyheHHaqUxDultJvUHaZMnbUS1s7KBJM176xaU0Wyk0HLZeLJnBAPRWw8mpZSX7GsagJAgf1sxP4CdcE500cZ37DCeY"
+ stripePublishableKey:  "pk_live_51OSpGoHzZ7Kf7uBxaI7L8Bx2JRmgf5WGp2MoqPhVq9rwy7NoIfg5vK1RHWZlePN7dnP7WnkjNLamxaaLXsYYWaJs00q5uO3okG"   
+ //stripePublishableKey: "pk_test_51KB4AqHzyheHHaqUCmUGRguy05EmUGUaZrAI0jnecMhMcGUzwn77ICZF1Sfoowqj0iexo3P9gYoqZdCsC0ZsFL2100PfNcJGAh"
+
+  ,
+BASE_URL:"http://localhost:8080/api/"
 };
 
 /*

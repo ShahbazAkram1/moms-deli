@@ -7,17 +7,20 @@
   <!-- Include Angular Material styles -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
-  <style>
-    /* Include your custom CSS styles here */
-  </style>
+ 
 </head>
 <body>
 
+  <div *ngIf="isAdminPanel()"> 
+    <app-admin-main-content></app-admin-main-content>
+    </div>
+    <div *ngIf="!isAdminPanel()">
+    
 <app-navbar></app-navbar>
-
 <app-main-content></app-main-content>
-
+<div class="p-5"></div>
 <app-footer></app-footer>
+</div>
 
 <!-- Include Angular Material scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

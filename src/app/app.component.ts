@@ -12,4 +12,9 @@ export class AppComponent {
   toggleNavbar() {
     this.isNavbarOpen = !this.isNavbarOpen;
   }
+
+  isAdminPanel(): boolean {
+    
+    return window.location.href.includes('admin');
+  }
 }

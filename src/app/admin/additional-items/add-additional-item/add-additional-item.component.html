@@ -1,0 +1,33 @@
+<div class="card shadow border-0 mb-7">
+  <div class="card-header">
+    <h5 class="mb-0">Create Additional Items</h5>
+    <div class="container"></div>
+  </div>
+
+  <form class="card-body" (formGroup)="additionalItemForm"  (ngSubmit)="onSubmit()">
+    <!-- Add your form controls with formGroupName and formControlName -->
+    <label for="productName">Addition Item Name:</label>
+    <input type="text" class="form-control" id="productName" formControlName="productName" required>
+
+    <label for="productPrice">Addition Item Price:</label>
+    <input type="number" class="form-control" id="productPrice" formControlName="productPrice" required>
+
+   
+ <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" formControlName="category">
+                <option value="{{category.id}}" *ngFor="let category of categories">
+                    {{category.name}}
+                </option>
+            </select>
+        </div>
+    <label for="productImage">Product Image URL:</label>
+    <input type="text" class="form-control" id="productImage" formControlName="productImage" required>
+
+    <div class="container-fluid">
+      <button type="submit" class="btn btn-warning mt-1" data-abc="true">
+        <i class="fa fa-plus"></i> Add Additional Item
+      </button>
+    </div>
+  </form>
+</div>

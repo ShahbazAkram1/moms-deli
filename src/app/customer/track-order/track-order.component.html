@@ -1,0 +1,41 @@
+<br>
+<div class="container">
+   <div class="form-group">
+        <label>Enter Tracking ID</label>
+        <input type="text" class="form-control" placeholder="Enter Tracking ID" [(ngModel)]="trackingId">
+        <a (click)="searchTrackingID()"  class="btn btn-warning mt-1" data-abc="true"> <i class="fa fa-search"></i> Track Order</a>
+    </div>
+    <article class="card mt-1" *ngIf="showDetail">
+        <header class="card-header bg-primary text-white"> My Orders / Tracking </header>
+        <div class="card-body">
+            <h6>Order ID: 123</h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Estimated Delivery time:</strong> <br>1 JAN 2023 </div>
+                    <div class="col"> <strong>Status:</strong> <br> Picked by the courier </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br> 123 </div>
+                </div>
+            </article>
+            <div class="track">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+            </div>
+            <hr>
+            <ul class="row">
+                <li class="col-md-4">
+                    <figure class="itemside mb-3">
+                        <div class="aside"><img src="../../../assets/images/products/sandwiches/bbq_chicken_cutlet.png" class="img-sm border"></div>
+                        <figcaption class="info align-self-center">
+                            <p class="title">Burger Zinger</p> <span class="text-muted">$950 </span>
+                        </figcaption>
+                    </figure>
+                </li>
+               
+                
+            </ul>
+            <hr>
+        </div>
+    </article>
+</div>
