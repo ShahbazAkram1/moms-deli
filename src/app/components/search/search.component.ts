@@ -13,15 +13,18 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  // search for product case insensitive
-  // doSearch(value: string) {
-  //   const caseInsensitiveValue = new RegExp(value, 'i');
-  //   console.log(`value=${caseInsensitiveValue}`);
-  //   this.router.navigateByUrl(`/search/${caseInsensitiveValue}`);
-  // }
-  
   doSearch(value: string) {
-    console.log(`value=${value}`);
-    this.router.navigateByUrl(`/search/${value}`);
+    const formattedValue = value
+      .toLowerCase()                  // Convert input to lowercase
+      .replace(/(?:^|\s)\S/g, a => a.toUpperCase()); // Capitalize the first letter of each word
+  
+    console.log(`value=${formattedValue}`);
+    this.router.navigateByUrl(`/search/${formattedValue}`);
   }
+  
+  
+  // doSearch(value: string) {
+  //   console.log(`value=${value}`);
+  //   this.router.navigateByUrl(`/search/${value}`);
+  // }
 }

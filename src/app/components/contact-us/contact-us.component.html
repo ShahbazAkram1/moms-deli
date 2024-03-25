@@ -1,0 +1,27 @@
+<!-- contact-us.component.html -->
+<h1>Contact Us</h1>
+
+<form (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Name" [formControl]="name">
+      <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" [formControl]="email">
+      <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+        Email is required
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <textarea matInput placeholder="Description" [formControl]="description"></textarea>
+      <mat-error *ngIf="description.invalid && (description.dirty || description.touched)">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>

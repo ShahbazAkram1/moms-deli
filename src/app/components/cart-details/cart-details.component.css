@@ -1,0 +1,28 @@
+
+.cart-container {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.items label {
+    font-weight: bold;
+}
+
+.items button {
+    margin-right: 5px;
+}
+
+.addons-container {
+    margin-top: 20px;
+}
+
+.addon-card {
+    margin: 0 5px 10px 5px;
+    border: 1px solid #ddd;
+}
+
+.summary-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+}

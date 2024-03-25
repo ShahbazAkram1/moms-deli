@@ -1,0 +1,63 @@
+<div class="card  shadow border-0 mb-7">
+  
+    <div class="card-header">
+        <h5 class="mb-0">Create Product </h5>
+        <div class="container">
+        </div>
+      </div>
+
+    <form [formGroup]="productFormGroup" class="card-body">
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" formControlName="category">
+                <option value="{{category.id}}" *ngFor="let category of categories">
+                    {{category.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" formControlName="productName" class="form-control" id="name" placeholder="Enter name">
+            <small class="text-danger"  *ngIf="isInvalid('productName')">
+                Enter Product Name
+            </small>
+        </div>
+       
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" formControlName="productPrice" id="price" placeholder="Enter price">
+            <small class="text-danger"  *ngIf="isInvalid('productPrice')">
+                Enter Product Name
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" class="form-control" formControlName="imageUrl" id="imageUrl" placeholder="Enter image URL">
+        </div>
+        <div class="form-group">
+            <label for="active">Active</label>
+            <select class="form-control" id="active">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="unitsInStock">Units in Stock</label>
+            <input type="number" class="form-control" formControlName="productStock" id="unitsInStock" placeholder="Enter units in stock">
+            <small class="text-danger"  *ngIf="isInvalid('productStock')">
+                Enter Product Units
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" formControlName="productDescription" placeholder="Enter description"></textarea>
+            <small class="text-danger"  *ngIf="isInvalid('productDescription')">
+                Enter Product Description
+            </small>
+        </div>
+<div class="container mt-1">
+    <a (click)="addProduct()"  class="btn btn-warning mt-1" data-abc="true"> <i class="fa fa-plus"></i> Add Product </a>
+
+</div>
+    </form>
+</div>

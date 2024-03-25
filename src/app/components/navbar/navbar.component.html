@@ -1,0 +1,100 @@
+<!-- Main Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark main-menu">
+  <div class="container">
+    <!-- Navbar Brand -->
+    <a class="navbar-brand" href="#">
+      <img src="../../../assets/images/moms-deli-logo.gif" style="width: 100px;" alt="Logo">
+    </a>
+
+    <!-- Navbar Toggler Button -->
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+      <!-- Navbar Toggler Button -->
+      <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <!-- Navbar Collapse -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+        <!-- Home Link -->
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/products'">Home</a>
+        </li>
+
+        <!-- Product Categories Links -->
+        <li class="nav-item" *ngFor="let category of productCategories">
+          <a class="nav-link" [routerLink]="['/category', category.id]" style="color: white;">{{ category.name }}</a>
+        </li>
+
+        <!-- User Authentication Links -->
+        <ng-container *ngIf="!isLoggedIn(); else loggedInUser">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/auth/login']">Log In / Register</a>
+          </li>
+        </ng-container>
+        <ng-template #loggedInUser>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/customer/dashboard']">{{ currentUser.firstName }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="logoutUser()">Logout</a>
+          </li>
+        </ng-template>
+
+        <!-- Cart Icon and Link -->
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/cart-details']">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge badge-danger">{{ cartService.getCart().length }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar (visible on mobile) -->
+<nav id="sidebar" [style.visibility]="isSidebarOpen ? 'visible' : 'hidden'" class="bg-dark">
+  <div class="sidebar-header text-white">
+    <h3 class="mb-4 mt-2">Menu</h3>
+  </div>
+  <ul class="list-unstyled components">
+    <!-- Home Link -->
+    <li class="active">
+      <a href="#" class="text-white" (click)="closeSidebar()"><i class="bx bx-home mr-2"></i> Home</a>
+    </li>
+
+    <!-- Product Categories Links
+    <li *ngFor="let category of productCategories">
+      <a href="#" class="text-white" (click)="closeSidebar()">{{ category.name }}</a>
+    </li>
+     -->
+    <!-- Product Categories Links -->
+<li class="nav-item" *ngFor="let category of productCategories">
+  <a class="nav-link" [routerLink]="['/category', category.id]" (click)="closeSidebar()">{{ category.name }}</a>
+</li>
+
+
+    <!-- User Authentication Links -->
+    <ng-container *ngIf="isLoggedIn(); else loggedOutSidebar">
+      <li>
+        <a (click)="logoutUser()" href="#" class="text-white" (click)="closeSidebar()"><i class="bx bx-log-out mr-2"></i> Logout</a>
+      </li>
+    </ng-container>
+    <ng-template #loggedOutSidebar>
+      <li>
+        <a [routerLink]="['/auth/login']" href="#" class="text-white" (click)="closeSidebar()"><i class="bx bx-log-in mr-2"></i> Log In</a>
+      </li>
+    </ng-template>
+
+    <!-- Cart Icon and Link -->
+    <li>
+      <a class="text-white" [routerLink]="['/cart-details']" (click)="closeSidebar()">
+        <i class="fas fa-shopping-cart mr-2"></i> Cart
+        <span class="badge badge-danger">{{ cartService.getCart().length }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

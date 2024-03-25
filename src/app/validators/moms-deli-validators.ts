@@ -13,7 +13,7 @@ export class MomsDeliValidators {
         }
         else {
             // valid, return null
-            return null;
+            return {};
         }
     }
 }

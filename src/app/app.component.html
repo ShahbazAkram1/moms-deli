@@ -1,84 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Angular Website</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="app.component.css"> <!-- You can create a separate CSS file for your custom styles -->
+  <!-- Include Angular Material styles -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+ 
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-  <div class="container">
-   
-    <a class="navbar-brand" href="#">
-      <img src="assets/images/logo.png" alt="Logo" width="200">
-    </a>
-    <a class="navbar-brand" routerLink="/cart-details">
-      <app-cart-status></app-cart-status>
-    </a>
-    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
-
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      (click)="toggleNavbar()"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" [ngClass]="{ 'show': isNavbarOpen }" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <app-product-category-menu></app-product-category-menu>
-        </li>
-        <li class="nav-item">
-          <app-search></app-search>
-        </li>
-      </ul>
+  <div *ngIf="isAdminPanel()"> 
+    <app-admin-main-content></app-admin-main-content>
     </div>
-
-    <div class="page-wrapper">
-      <div class="ml-auto d-flex align-items-center">
-          
-        </div>
-        
-        <!-- <aside class="menu-sidebar d-none d-lg-block">
-          <app-product-category-menu></app-product-category-menu>
-        </aside> -->
-         
-      <div class="page-wrapper-placeholder">
-      </div>
-    </div>
+    <div *ngIf="!isAdminPanel()">
     
-    <div class="page-wrapper2">
-    </div>
-  </div>
-</nav>
-
-<!-- MAIN CONTENT-->
-<div class="container mt-5">
-  <router-outlet></router-outlet>
+<app-navbar></app-navbar>
+<app-main-content></app-main-content>
+<div class="p-5"></div>
+<app-footer></app-footer>
 </div>
 
-<!-- <footer class="text-center mt-5 py-3">
-  <ul class="list-inline">
-    <li class="list-inline-item"><a href="#">About Us</a></li>
-    <li class="list-inline-item"><a href="#">Contact Us</a></li>
-    <li class="list-inline-item"><a href="#">Help</a></li>
-  </ul>
-</footer> -->
-
+<!-- Include Angular Material scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 </body>
 </html>

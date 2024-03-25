@@ -1,0 +1,72 @@
+<!--Main Navigation-->
+<header>
+  
+  <!-- Sidebar -->
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+  
+    <div class="position">
+   
+            <!-- Admin Logo and Name -->
+            <div class="admin-info  container text-center  text-white p-1" style="margin-top: -60px;background-color: #333;">
+              <img src="../../../assets/admin/images/admin.png" style="width:5vh" alt="Admin Logo" class="admin-logo">
+              <p class="admin-name">Admin Name</p>
+          </div>
+        <a
+          href="admin/dashboard"
+          class="list-group-item list-group-item-action py-2 ripple"
+          aria-current="true"
+        >
+          <i class="fa fa-dashboard fa-fw me-3"></i><span>Main dashboard</span>
+        </a>
+        <a href="admin/category" class="list-group-item list-group-item-action py-2 ripple active">
+          <i class="fa fa-categort fa-fw me-3"></i><span>Category</span>
+        </a>
+        <a href="admin/product" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fa fa-dashboard fa-fw me-3"></i><span>Products</span></a
+        >
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fa fa-dashboard fa-fw me-3"></i><span>Addition Items</span></a
+        >
+        <a href="admin/orderPlaced" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fa fa-dashboard fa-fw me-3"></i><span>Orders</span></a
+        >
+        <a href="admin/orderPlaced" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fa fa-dashboard fa-fw me-3"></i><span>Customers</span></a
+        > 
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+        ><i class="fa fa-arrow-back fa-fw me-3"></i><span>Logout</span></a
+      >
+       
+      </div>
+  </nav>
+  <!-- Sidebar -->
+
+  <!-- Navbar -->
+
+  <!-- Navbar -->
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+
+<main  class="">
+<!-- <admin-app-navbar></admin-app-navbar> -->
+<!-- app.component.html -->
+<div class="navbar">
+  <div class="logo">Momis Deli</div>
+  <ul class="nav-links">
+      <li><a href="#">Notifications</a></li>
+      <li><a href="#">Logout</a></li>
+  </ul>
+</div>
+<div class="content">
+  <!-- Your page content goes here -->
+</div>
+
+
+  <div class="m-1" style="margin-top: -30px!important; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;"> 
+    <router-outlet></router-outlet>
+  </div>
+  <div class="container pt-4"></div>
+</main>
+<!--Main layout-->

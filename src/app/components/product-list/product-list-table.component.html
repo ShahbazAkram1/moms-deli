@@ -1,23 +1,47 @@
-<table class="table">
+<!-- Updated table using Angular Material -->
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="products" class="mat-elevation-z8">
+    <!-- Image Column -->
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef>Image</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="image-container">
+          <img [src]="element.imageUrl" height="50" class="product-image" />
+        </div>
+      </td>
+    </ng-container>
 
-    <thead class="thead-dark">
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Units in Stock</th>
-        </tr>
-    </thead>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
 
-    <tbody>
-        <tr *ngFor="let tempProduct of products">
-            <td class="align-middle">
-                <img src="{{ tempProduct.imageUrl }}" height="50" />
-            </td>
-            <td class="align-middle">{{ tempProduct.name}}</td>
-            <td class="align-middle">{{ tempProduct.price | currency:'USD'}}</td>
-            <td class="align-middle">{{ tempProduct.unitsInStock}}</td>
-        </tr>
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.price | currency : "USD" }}
+      </td>
+    </ng-container>
 
-    </tbody>
-</table>
+    <!-- Units in Stock Column -->
+    <ng-container matColumnDef="unitsInStock">
+      <th mat-header-cell *matHeaderCellDef>Units in Stock</th>
+      <td mat-cell *matCellDef="let element">{{ element.unitsInStock }}</td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['image', 'name', 'price', 'unitsInStock']"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['image', 'name', 'price', 'unitsInStock']"
+      class="product-row"
+      (mouseover)="onMouseOver(row)"
+      (mouseout)="onMouseOut(row)"
+    ></tr>
+  </table>
+</div>

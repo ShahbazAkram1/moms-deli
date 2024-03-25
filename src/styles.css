@@ -1,3 +1,4 @@
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 /* 
  * ----------------------------
  * Common CSS
@@ -11,7 +12,13 @@
     -moz-box-sizing:border-box;
     box-sizing:border-box
 }
-
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+}
+/*
 body{
     font-family:Poppins,sans-serif;
     font-weight:400;
@@ -126,14 +133,14 @@ aside.menu-sidebar.d-none.d-lg-block.clr{
     box-shadow:-2px 0 4px #0000003b;
 } 
 */ 
-aside.menu-sidebar.d-none.d-lg-block{
+/* aside.menu-sidebar.d-none.d-lg-block{
     background:0 0;
     z-index:99999999;
     height:75px;
     box-shadow:-2px 0 4px #0000003b;
     vertical-align: middle;
     margin-top:10px;
-} 
+}  */
 
 /* 
  * ----------------------------
@@ -547,6 +554,101 @@ input.au-input.au-input-xl{
     padding: 10% 30% 10% 5%
 } */
 
+/* Angular Material Toolbar Styling */
+mat-toolbar {
+    background-color: black;
+    color: white;
+  }
+  
+  mat-toolbar-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  mat-toolbar-row img {
+    width: 150px;
+  }
+
+
+/* Navbar Styling */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  li {
+    margin-right: 15px;
+  }
+  
+  /* Form Styling */
+  .form-area {
+    background: #e5e5e5;
+    position: relative;
+    margin-bottom: 45px;
+    padding: 50px 20px;
+    border: 3px solid #ccc;
+  }
+  
+  .form-area h3 {
+    position: absolute;
+    top: -26px;
+    left: 13px;
+    background: #e5e5e5;
+    padding: 10px 20px;
+    font-weight: 500;
+    z-index: 23;
+    display: inline-block;
+  }
+  
+  .input-space {
+    margin-bottom: 20px;
+  }
+  
+  .input-space label {
+    padding-left: 31px;
+    font-size: 14px;
+    margin-bottom: 50px;
+  }
+  
+  .input-space input[type="text"],
+  .input-space select {
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
+    outline: 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .au-checkbox {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+  }
+  
+  .au-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .au-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #fff !important;
+    border: 2px solid #e5e5e5;
+    border-radius: 2px;
+  }
+  
+
+
 /* 
  * ----------------------------
  * Products List
@@ -572,7 +674,7 @@ input.au-input.au-input-xl{
 .price{
     margin:15px 0 0;
     font-weight:800;
-    color:#0da8e4
+    color:#03a9f4
 }
 .product-box h1{
     font-size:18px;
@@ -744,10 +846,24 @@ table.table.table-bordered th{
  * ----------------------------
  */
 
- .price{
+.product_name {
+    color: black
+}
+
+.product_name:hover {
+    color: rgb(30, 107, 194)
+}
+
+.price{
     margin:15px 0 0;
     font-weight:800;
-    color:#0da8e4
+    color:#205b8d;
+    /* color:#0da8e4 */
+}
+
+.price_addToCart {
+    color:black
+
 }
 
 .detail-section{
@@ -782,9 +898,15 @@ a.primary-btn{
     margin-top:5px
 }
 a.primary-btn:hover{
-    background:#0da8e4;
+    background:#03a9f4;
     color:#fff
 }
+
+.btn-primary {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text color */
+}
+
 
 /* .active-link {
   font-weight: bold;
@@ -796,23 +918,27 @@ a.primary-btn:hover{
  * ----------------------------
  */
 
-footer ul li a{
-    color:#fff
+ footer {
+    background: #232324;
+    z-index: 1;
+    position: relative;
+    text-align: center;
 }
-footer{
-    background:#232324;
-    z-index:1;
-    position:relative;
-    text-align:center
+
+footer ul {
+    padding: 0;
+    list-style: none;
 }
-footer li a{
-    color:#313131;
-    font-weight:500
+
+footer ul li {
+    display: inline-block;
+    font-size: 14px;
+    padding: 10px 20px;
 }
-footer ul li{
-    display:inline-block;
-    font-size:14px;
-    padding:10px 20px
+
+footer ul li a {
+    color: #fff;
+    font-weight: 500;
 }
 
 /* 
@@ -820,8 +946,64 @@ footer ul li{
  * Media Queries
  * ----------------------------
  */
+ 
+@media (max-width: 767px) {
+  .au-input-xl {
+    min-width: 150px;
+  }
 
-@media (max-width:1600px){
+  .header-mobile .navbar-mobile {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 66px;
+    z-index: 20;
+  }
+
+  .section-content.section-content-p30.e-spc {
+    padding-top: 100px;
+  }
+
+  header.header-desktop.extra {
+    top: 64px !important;
+  }
+
+  .header-desktop {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 80px;
+  }
+
+  a.logo img {
+    width: 110px;
+  }
+
+  .cart-area i {
+    font-size: 18px;
+    float: left;
+    margin-top: 16px;
+    color: #03a9f4;
+    margin-left: 15px;
+  }
+
+  .cart-area.d-b {
+    display: block;
+  }
+
+  .cart-area.d-n {
+    display: none;
+  }
+
+  .header-mobile .header-mobile-bar {
+    padding: 6px 0;
+    background: #fff;
+    border: 0;
+    padding: 8px 0;
+  }
+}
+
+    /*@media (max-width:1600px){
     .au-input-xl{
         min-width:290px
     }
@@ -1017,7 +1199,7 @@ footer ul li{
         top:66px;
         padding-left:0
     }
-    /* .au-btn-submit{
+ .au-btn-submit{
         position:relative;
         right:10px;
         min-width:85px;
@@ -1027,7 +1209,7 @@ footer ul li{
         -moz-border-radius:3px;
         border-radius:0;
         background:#205b8d
-    } */
+    } 
     input.au-input.au-input-xl{
         border-radius:0!important;
         margin-right:0
@@ -1045,7 +1227,7 @@ footer ul li{
         color:#03a9f4;
         margin-left:15px
     }
-    /* .total span{
+     .total span{
         display:inline-block;
         background:#fff;
         padding:0 10px;
@@ -1063,11 +1245,11 @@ footer ul li{
         float:left;
         margin-top:9px;
         padding-left:12px
-    } */
+    } 
     .header-mobile .header-mobile-bar{
         padding:6px 0;
         background:#fff;
         border:0;
         padding:8px 0
     }
-}
+}*/

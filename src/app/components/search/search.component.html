@@ -1,25 +1,12 @@
-<!-- <div class="form-header">
-
-    <input #myInput type="text" 
-           placeholder="Search for products"
-           class="au-input au-input-xl"
-           (keyup.enter)="doSearch(myInput.value)"  />
-
-    <button (click)="doSearch(myInput.value)" class="au-btn-submit">
-        Search
-    </button>
-</div> -->
-
-<div class="input-group mr-3">
-    <!-- <input type="text" class="form-control" placeholder="Search for products"> -->
-    <input #myInput type="text" 
-           placeholder="Search for products"
-           class="form-control"
-           (keyup.enter)="doSearch(myInput.value)"  />
-
-    <div class="input-group mr-3">
-        <button (click)="doSearch(myInput.value)" class="au-btn-submit">
-            Search
-        </button>
-    </div>
+<div class="row">
+  <div class="col-md-8"></div>
+  <div class="col-md-4">
+    <input
+      matInput
+      #myInput
+      placeholder="Search for products"
+      class="form-control float-end"
+      (keyup.enter)="doSearch(myInput.value)"
+    />
   </div>
+</div>
